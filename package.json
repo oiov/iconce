@@ -4,7 +4,7 @@
     "dev": "prisma generate && next dev",
     "dev:mdx": "concurrently \"contentlayer dev\" \"next dev\"",
     "build:local": "contentlayer build && next build",
-    "build": "contentlayer build && prisma generate && prisma db push && next build",
+    "build": "contentlayer build && prisma generate && next build",
     "start": "next start",
     "prisma:init": "npx prisma init",
     "prisma:generate": "npx prisma generate",
