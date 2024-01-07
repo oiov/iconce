@@ -1,10 +1,10 @@
 "use client";
 
 import DropDown, { LanguageType } from "@/components/DropDown";
-import Github from "@/components/icons/GitHub";
-import Twitter from "@/components/icons/Twitter";
 import Subscribe from "@/components/subscribe/Subscribe";
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { axios } from "@/lib/axios";
 import { formatNumber } from "@/lib/data";
 import { UserInfo } from "@/types/user";
 import { useCompletion } from "ai/react";
@@ -86,30 +86,19 @@ export default function HomePage({
     }
   }, [remaining, boostPackRemaining, currentUses]);
 
+  const handleClip = async () => {
+    const res = await axios.post("/api/clipper", {
+      url: "https://yesmore.cc/cn/%E6%B5%81%E9%87%8F%E5%8D%A1/",
+    });
+    console.log("[res]", res);
+  };
+
   return (
     <>
       <div
         className="mx-auto mt-6 flex items-center justify-center space-x-5"
-        style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
-      >
-        <a
-          href="https://twitter.com/weijunext/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-blue-200 mb-5"
-        >
-          <Twitter className="h-5 w-5" />
-          <p className="text-sm font-semibold">Follow Me</p>
-        </a>
-        <a
-          href="https://github.com/weijunext/smart-excel-ai"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
-        >
-          <Github className="h-5 w-5" />
-          <p className="text-sm font-semibold">Star on GitHub</p>
-        </a>
+        style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
+        <Button onClick={handleClip}>截取</Button>
       </div>
       <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
         {siteConfig.description}
@@ -181,8 +170,7 @@ export default function HomePage({
                   isLoading || remainingCredits + boostPackRemainingCredits <= 0
                     ? "not-allowed"
                     : "",
-              }}
-            >
+              }}>
               {isLoading ? (
                 <span className="loading">
                   <span style={{ backgroundColor: "white" }} />
@@ -193,8 +181,7 @@ export default function HomePage({
                 <Link
                   href={
                     user.role === 0 ? "/#subscription-card" : "/#bootsPack-card"
-                  }
-                >
+                  }>
                   {
                     /**
                      * 普通用户的引导文字：引导购买会员
@@ -232,8 +219,7 @@ export default function HomePage({
             <div>
               <h2
                 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto"
-                ref={answerRef}
-              >
+                ref={answerRef}>
                 The formula you need
               </h2>
             </div>
@@ -245,8 +231,7 @@ export default function HomePage({
                   toast("Copied", {
                     icon: "✂️",
                   });
-                }}
-              >
+                }}>
                 <div className="whitespace-pre-wrap text-left">{answer}</div>
               </div>
             </div>

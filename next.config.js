@@ -21,6 +21,10 @@ const nextConfig = {
       },
     ];
   },
+  webpack: (config) => {
+    config.externals = [...config.externals, "canvas", "jsdom"];
+    return config;
+  },
 };
 
 // export default withContentlayer(nextConfig)
