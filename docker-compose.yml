@@ -1,5 +1,4 @@
 # docker-compose.yml
-# how to use? see my blog: https://weijunext.com/article/b33a5545-fd26-47a6-8641-3c7467fb3910
 version: '3.1'
 services:
   db:

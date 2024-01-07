@@ -19,7 +19,7 @@ User-agent: DotBot
 Disallow: /
 
 # Host
-Host: https://www.smartexcel.cc
+Host: https://lemonpay.oihub.cc
 
 # Sitemaps
-Sitemap: https://www.smartexcel.cc/sitemap.xml
+Sitemap: https://lemonpay.oihub.cc/sitemap.xml

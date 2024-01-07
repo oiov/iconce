@@ -1,31 +1,31 @@
-import { SiteConfig } from "@/types/siteConfig"
+import { SiteConfig } from "@/types/siteConfig";
 
 const baseSiteConfig = {
-  name: "Smart Excel",
+  name: "LemonPay",
   description:
-    "Generate the Excel formulas in seconds.",
-  url: "https://smartexcel.cc",
-  ogImage: "https://smartexcel.cc/og.jpg",
-  metadataBase: new URL("https://www.smartexcel.cc"),
-  keywords: ["SmartExcel", "ChatGPT", "Excel formulas", "Excel AI", "文心一言", "智谱"],
+    "Quickly build a membership subscription SaaS system based on Lemonsquezy",
+  url: "https://lemonpay.oihub.cc",
+  ogImage: "https://lemonpay.oihub.cc/og.jpg",
+  metadataBase: new URL("https://lemonpay.oihub.cc"),
+  keywords: ["Payment", "Lemonsqueeze", "Saas", "Subscription", "Platform"],
   authors: [
     {
-      name: "weijunext",
-      url: "https://weijunext.com",
-    }
+      name: "yesmore",
+      url: "https://github.com/yesmore",
+    },
   ],
-  creator: '@weijunext',
-  themeColor: '#fff',
+  creator: "@yesmore",
+  themeColor: "#fff",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
   links: {
-    twitter: "https://twitter.com/weijunext",
-    github: "https://github.com/weijunext/smartexcel",
+    twitter: "https://twitter.com/yesmooore",
+    github: "https://github.com/yesmore/lemonpay",
   },
-}
+};
 
 export const siteConfig: SiteConfig = {
   ...baseSiteConfig,
@@ -44,4 +44,4 @@ export const siteConfig: SiteConfig = {
     images: [`${baseSiteConfig.url}/og.png`],
     creator: baseSiteConfig.creator,
   },
-}
+};

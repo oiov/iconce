@@ -5,39 +5,29 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="text-center h-16 sm:h-20 w-full sm:pt-2 pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center px-3 sm:mb-0 mb-3">
-      <div>
-        Powered by{" "}
+      <div className="">
+        LemonPay - 快速构建基于{" "}
         <a
-          href="https://openai.com/blog/chatgpt"
-          target="_blank"
-          className="font-bold hover:underline transition underline-offset-2"
-        >
-          ChatGPT{" "}
-        </a>
-        and{" "}
-        <a
-          href="https://sdk.vercel.ai/docs"
-          target="_blank"
-          className="font-bold hover:underline transition underline-offset-2"
-        >
-          Vercel AI SDK
-        </a>
+          className=" text-cyan-600"
+          href="https://lemonsqueezy.com"
+          target="_blank">
+          Lemonsquezy
+        </a>{" "}
+        的会员订阅系统
       </div>
       <div className="flex gap-2 pb-4 sm:pb-0">
         <Link
-          href="https://twitter.com/weijunext"
+          href="https://twitter.com/yesmoree"
           className="group"
-          aria-label="weijunext Twitter"
-          target="_blank"
-        >
+          aria-label="yesmoree Twitter"
+          target="_blank">
           <Twitter className="h-5 w-5" />
         </Link>
         <Link
-          href="https://github.com/weijunext/smart-excel-ai"
+          href="https://github.com/yesmore"
           className="group"
           aria-label="GitHub"
-          target="_blank"
-        >
+          target="_blank">
           <Github />
         </Link>
       </div>

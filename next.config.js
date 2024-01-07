@@ -6,17 +6,13 @@ const nextConfig = {
   reactStrictMode: process.env.NODE_ENV === "development",
   swcMinify: true,
   images: {
-    domains: [
-      "avatars.githubusercontent.com",
-      "weijunext.com",
-      "smartexcel.cc",
-    ],
+    domains: ["avatars.githubusercontent.com", "lemonpay.oihub.cc"],
   },
   async redirects() {
     return [
       {
         source: "/github",
-        destination: "https://github.com/weijunext/smart-excel-ai",
+        destination: "https://github.com/yesmore/lemonpay",
         permanent: false,
       },
     ];
