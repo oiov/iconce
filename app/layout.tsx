@@ -30,7 +30,7 @@ export const metadata = {
   keywords: siteConfig.keywords,
   authors: siteConfig.authors,
   creator: siteConfig.creator,
-  themeColor: siteConfig.themeColor,
+  // themeColor: siteConfig.themeColor,
   icons: siteConfig.icons,
   metadataBase: siteConfig.metadataBase,
   openGraph: siteConfig.openGraph,

@@ -15,7 +15,7 @@ const baseSiteConfig = {
     },
   ],
   creator: "@yesmore",
-  themeColor: "#fff",
+  // themeColor: "#fff",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
