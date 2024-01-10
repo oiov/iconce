@@ -1,8 +1,5 @@
-import BaiDuAnalytics from "@/app/BaiDuAnalytics";
 import GoogleAnalytics from "@/app/GoogleAnalytics";
 import { NextAuthProvider } from "@/app/providers";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { TailwindIndicator } from "@/components/TailwindIndicator";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/config/site";
@@ -49,19 +46,15 @@ export default async function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "bg-background font-sans antialiased",
           fontSans.variable,
           fontHeading.variable
         )}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>
-            <Header user={user} />
-            <div className="flex max-full mx-auto flex-col justify-center py-0 min-h-screen">
-              <main className="flex-1 mt-20 flex justify-center">
-                {children}
-              </main>
-              <Footer />
-            </div>
+            {/* <Header user={user} /> */}
+            <main className="flex-1 flex justify-center">{children}</main>
+            {/* <Footer /> */}
           </NextAuthProvider>
           {/* <Analytics /> */}
           <Toaster />
@@ -72,7 +65,6 @@ export default async function RootLayout({
         ) : (
           <>
             <GoogleAnalytics />
-            <BaiDuAnalytics />
           </>
         )}
       </body>

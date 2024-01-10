@@ -23,6 +23,7 @@ import {
   Twitter,
   User,
   X,
+  icons,
   type LucideIcon,
 } from "lucide-react";
 
@@ -78,3 +79,23 @@ export const Icons = {
   twitter: Twitter,
   check: Check,
 };
+
+interface IconProps extends LucideProps {
+  name: string;
+}
+
+// const DynamicLucideIcon = ({ name, ...props }: IconProps) => {
+//   const LucideIcon = dynamic(dynamicIconImports[name])
+
+//   return <LucideIcon {...props} />;
+// };
+
+// export default DynamicLucideIcon;
+
+const Icon = ({ name, ...props }: IconProps) => {
+  const LucideIcon = icons[name as keyof typeof icons];
+
+  return <LucideIcon  {...props}/>;
+};
+
+export { Icon };

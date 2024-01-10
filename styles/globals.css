@@ -87,3 +87,9 @@
 *::-webkit-scrollbar-thumb:hover {
   background: hsla(0, 0%, 59%, 0.524);
 }
+
+.dot-bg {
+  background: radial-gradient(circle at 1px 1px, #6d6d6d 1px, transparent 0);
+  background-size: 20px 20px;
+  background-color: #17191a;
+}

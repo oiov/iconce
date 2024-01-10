@@ -1,10 +1,7 @@
 "use client";
 
-import Subscribe from "@/components/subscribe/Subscribe";
-import { axios } from "@/lib/axios";
+import SvgEditor from "@/components/editor";
 import { UserInfo } from "@/types/user";
-import dayjs from "dayjs";
-import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -50,13 +47,6 @@ export default function HomePage({
     }
   }, [remaining, boostPackRemaining, currentUses]);
 
-  const handleClip = async () => {
-    const res = await axios.post("/api/clipper", {
-      url: "https://yesmore.cc/cn/%E6%B5%81%E9%87%8F%E5%8D%A1/",
-    });
-    console.log("[res]", res);
-  };
-
   return (
     <>
       <Toaster
@@ -64,7 +54,9 @@ export default function HomePage({
         reverseOrder={false}
         toastOptions={{ duration: 2000 }}
       />
-      <form className="max-w-xl w-full mb-10">
+      <SvgEditor />
+
+      {/* <form className="max-w-xl w-full mb-10">
         {user ? (
           <>
             <div className="text-left mt-6 mb-2 text-gray-500 text-sm">
@@ -115,12 +107,6 @@ export default function HomePage({
                     user.role === 0 ? "/#subscription-card" : "/#bootsPack-card"
                   }>
                   {
-                    /**
-                     * 普通用户的引导文字：引导购买会员
-                     * 会员用户的引导文字：引导购买加油包
-                     * Prompt for regular users: Guide to purchase membership
-                     * Prompt for member users: Guide to purchase a boost package
-                     */
                     user.role === 0
                       ? "成为会员，每天可享受500个积分。"
                       : "立即购买一个加油包以获得更多积分。"
@@ -138,10 +124,7 @@ export default function HomePage({
             </button>
           </Link>
         )}
-      </form>
-
-      {/* subscribe */}
-      <Subscribe user={user} />
+      </form> */}
     </>
   );
 }

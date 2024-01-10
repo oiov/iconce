@@ -21,6 +21,7 @@ const nextConfig = {
     config.externals = [...config.externals, "canvas", "jsdom"];
     return config;
   },
+  transpilePackages: ['lucide-react']
 };
 
 // export default withContentlayer(nextConfig)

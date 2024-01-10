@@ -11,9 +11,9 @@ export default function MainHeader() {
         width={32}
         height={32}
       />
-      <h1 className="sm:text-4xl text-2xl ml-2 tracking-tight font-extralight flex items-center">
+      {/* <h1 className="sm:text-4xl text-2xl ml-2 tracking-tight font-extralight flex items-center">
         LemonPay
-      </h1>
+      </h1> */}
     </Link>
   );
 }
