@@ -1,0 +1,28 @@
+.custom-color-picker input {
+  display: block;
+  box-sizing: border-box;
+  width: 200px;
+  padding: 6px;
+  border: 1px solid #ffffff0d;
+  border-radius: 4px;
+  background: #3b3b3b;
+  outline: none;
+  font: inherit;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.3s;
+  color: #eeeeee;
+}
+
+.custom-color-picker input:focus {
+  border-color: rgb(107 114 128);
+}
+
+.custom-color-picker .swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}

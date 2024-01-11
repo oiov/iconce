@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import "@/styles/loading.css";
+import "@/styles/select.css";
 import { UserInfo } from "@/types/user";
 import { Inter as FontSans } from "next/font/google";
 import localFont from "next/font/local";
