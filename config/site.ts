@@ -1,12 +1,12 @@
 import { SiteConfig } from "@/types/siteConfig";
 
 const baseSiteConfig = {
-  name: "LemonPay",
+  name: "Iconce",
   description:
     "Quickly build a membership subscription SaaS system based on Lemonsquezy",
-  url: "https://lemonpay.oihub.cc",
-  ogImage: "https://lemonpay.oihub.cc/og.jpg",
-  metadataBase: new URL("https://lemonpay.oihub.cc"),
+  url: "https://iconce.com",
+  ogImage: "https://iconce.com/og.jpg",
+  metadataBase: new URL("https://iconce.com"),
   keywords: ["Payment", "Lemonsqueeze", "Saas", "Subscription", "Platform"],
   authors: [
     {
@@ -23,7 +23,7 @@ const baseSiteConfig = {
   },
   links: {
     twitter: "https://twitter.com/yesmooore",
-    github: "https://github.com/yesmore/lemonpay",
+    github: "https://github.com/yesmore/iconce",
   },
 };
 

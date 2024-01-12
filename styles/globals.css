@@ -93,3 +93,34 @@
   background-size: 20px 20px;
   background-color: #17191a;
 }
+
+.text-gradient-1 {
+  background: linear-gradient(90deg, #3d44ff, #c4b3ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: #0000;
+}
+
+.bg-gradient-1 {
+  background: linear-gradient(90deg, #3d43ff2c, #c3b3ff2c);
+}
+
+.bg-gradient-2 {
+  background: linear-gradient(90deg, #3d43ff8e, #c3b3ff8e);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* 火狐 */
+input {
+  -moz-appearance: textfield;
+}
+
+input:focus {
+  outline: none;
+}

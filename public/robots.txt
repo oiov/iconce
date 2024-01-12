@@ -19,7 +19,7 @@ User-agent: DotBot
 Disallow: /
 
 # Host
-Host: https://lemonpay.oihub.cc
+Host: https://iconce.com
 
 # Sitemaps
-Sitemap: https://lemonpay.oihub.cc/sitemap.xml
+Sitemap: https://iconce.com/sitemap.xml

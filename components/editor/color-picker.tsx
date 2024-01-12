@@ -24,7 +24,7 @@ export default function ColorPicker({
       <Popover.Root>
         <Popover.Trigger asChild>
           <button
-            className="IconButton min-w-[100px] flex items-center justify-between text-xs gap-2 rounded-[6px] px-2 py-1 bg-[#0003] border border-[#ffffff0d] hover:border-[#ffffff36] transition-all duration-300"
+            className="IconButton min-w-[100px] flex items-center justify-between text-xs gap-2 rounded-[6px] px-2 py-1 bg-[#0003] border border-[#ffffff0d] active:border-[#ffffff36] enabled:hover:border-[#ffffff36] transition-all duration-300"
             aria-label="Update dimensions">
             <div className="swatch" style={{ backgroundColor: color }} />
             {color}

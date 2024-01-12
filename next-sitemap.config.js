@@ -3,7 +3,7 @@
  * @see https://github.com/iamvishnusankar/next-sitemap#readme
  */
 module.exports = {
-  siteUrl: "https://lemonpay.oihub.cc",
+  siteUrl: "https://iconce.com",
   changefreq: "daily",
   priority: 0.7,
   exclude: ["/server-sitemap.xml", "/404"],
@@ -23,7 +23,7 @@ module.exports = {
     await config.transform(config, "/"),
   ],
   robotsTxtOptions: {
-    additionalSitemaps: ["https://lemonpay.oihub.cc/sitemap.xml"],
+    additionalSitemaps: ["https://iconce.com/sitemap.xml"],
     policies: [
       {
         userAgent: "*",

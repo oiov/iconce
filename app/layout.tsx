@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import "@/styles/loading.css";
 import "@/styles/select.css";
+import "@/styles/slider.css";
+import "@/styles/switch.css";
 import { UserInfo } from "@/types/user";
 import { Inter as FontSans } from "next/font/google";
 import localFont from "next/font/local";

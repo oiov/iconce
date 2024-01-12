@@ -4,6 +4,7 @@ export interface IconInfo {
   totalSize: number; // 图标总大小
   centerIconSize: number; // 图标内大小
   fillStyle: FillStyle;
+  background: Background;
 }
 
 export interface FillStyle {
@@ -14,6 +15,16 @@ export interface FillStyle {
 }
 
 export type FillType = "Solid" | "Linear";
+
+export interface Background {
+  radialGlare: boolean;
+  noiseTexture: boolean;
+  noiseOpacity: number;
+  radius: string;
+  strokeSize: string;
+  strokeColor: string;
+  strokeOpacity: string;
+}
 
 export const BackgroundFillPresets = [
   { primaryColor: "#8E2DE2", secondaryColor: "#4A00E0" },

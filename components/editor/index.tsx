@@ -4,6 +4,7 @@ import { Icon } from "@/components/Icons";
 import MainHeader from "@/components/MainHeader";
 import ColorPicker from "@/components/editor/color-picker";
 import EmojiPicker from "@/components/editor/emoji-picker";
+import NoiseTexture from "@/components/editor/noise-texture";
 import {
   BackgroundFillPresets,
   FillType,
@@ -13,15 +14,13 @@ import CopyIcon from "@/components/icons/copy";
 import ExportIcon from "@/components/icons/export";
 import ImageIcon from "@/components/icons/image";
 import LinkIcon from "@/components/icons/link";
-import RedoIcon from "@/components/icons/redo";
-import UndoIcon from "@/components/icons/undo";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button, IconButton } from "@/components/ui/button";
+import { IconButton } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,6 +31,8 @@ import Modal from "@/components/ui/modal";
 import { toCamelCase } from "@/lib/utils";
 
 import * as Select from "@radix-ui/react-select";
+import * as Slider from "@radix-ui/react-slider";
+import * as Switch from "@radix-ui/react-switch";
 import { motion } from "framer-motion";
 import {
   ChevronDown,
@@ -55,7 +56,7 @@ export default function SvgEditor() {
 
   const [iconInfo, setIconInfo] = useState<IconInfo>({
     type: "svg",
-    value: "search",
+    value: "search", // TODO
     totalSize: 256,
     centerIconSize: 200,
     fillStyle: {
@@ -63,6 +64,15 @@ export default function SvgEditor() {
       primaryColor: "#F5AF19",
       secondaryColor: "#F12711",
       angle: "45",
+    },
+    background: {
+      radialGlare: false,
+      noiseTexture: false,
+      noiseOpacity: 25,
+      radius: "128",
+      strokeSize: "0",
+      strokeColor: "#FFFFFF",
+      strokeOpacity: "100",
     },
   });
 
@@ -80,8 +90,7 @@ export default function SvgEditor() {
     }
   }, [dynamicIconImports]);
 
-  const isDisabled =
-    iconInfo.fillStyle.fillType === "Solid" ? "text-gray-400" : "";
+  const isDisabled = (disable: boolean) => (disable ? "text-gray-400" : "");
 
   const handleSearchIcon = (key: string) => {
     setseachNameResult(suppotIcons.filter((item) => item.includes(key)));
@@ -112,7 +121,7 @@ export default function SvgEditor() {
           <input
             onChange={(e) => handleSearchIcon(e.target.value)}
             type="text"
-            className="w-full md:w-[190px] h-10 text-sm text-white pl-10 pr-11 bg-[#343434] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md border border-[#ffffff0d]"
+            className="w-full md:w-[190px] h-10 text-sm text-white pl-10 pr-11 bg-[#3d3d3d] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
             placeholder="Search Icons…"
           />
         </label>
@@ -184,8 +193,8 @@ export default function SvgEditor() {
         defaultValue="item-1"
         collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="text-slate-300 bg-[#343434] rounded-md font-bold text-xs px-3">
-            Background Presets
+          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
+            Fill Presets
           </AccordionTrigger>
           <AccordionContent className="p-2 grid grid-cols-7 gap-4 items-start justify-start pt-3">
             {BackgroundFillPresets.map((item, index) => (
@@ -250,7 +259,7 @@ export default function SvgEditor() {
         defaultValue="item-1"
         collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="text-slate-300 bg-[#343434] rounded-md font-bold text-xs px-3">
+          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
             Fill Styles
           </AccordionTrigger>
           <AccordionContent className="space-y-2 p-2">
@@ -298,9 +307,12 @@ export default function SvgEditor() {
                 }
               />
             </div>
-            <div
-              className={"flex items-center justify-between text-white mt-2 "}>
-              <span className={"text-xs " + `${isDisabled}`}>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span
+                className={
+                  "text-xs " +
+                  `${isDisabled(iconInfo.fillStyle.fillType === "Solid")}`
+                }>
                 Secondary Color
               </span>
               <ColorPicker
@@ -316,6 +328,114 @@ export default function SvgEditor() {
                 }
               />
             </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span
+                className={
+                  "text-xs " +
+                  `${isDisabled(iconInfo.fillStyle.fillType === "Solid")}`
+                }>
+                Angle
+              </span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="number"
+                  defaultValue={iconInfo.fillStyle.angle}
+                  onInput={(v) => v.currentTarget.value.replace(/[^\d]/g, "")}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      fillStyle: {
+                        ...iconInfo.fillStyle,
+                        angle: e.target.value || "45",
+                      },
+                    })
+                  }
+                />
+                <div className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-400">
+                  °
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <Accordion className="w-full" type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
+            Background
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3 p-2">
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className="text-xs">Radial glare</span>
+              <Switch.Root
+                className="SwitchRoot"
+                id="airplane-mode"
+                defaultChecked={iconInfo.background.radialGlare}
+                onCheckedChange={(e) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    background: {
+                      ...iconInfo.background,
+                      radialGlare: e,
+                    },
+                  })
+                }>
+                <Switch.Thumb className="SwitchThumb" />
+              </Switch.Root>
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className="text-xs">Noise texture</span>
+              <Switch.Root
+                className="SwitchRoot"
+                id="airplane-mode"
+                defaultChecked={iconInfo.background.noiseTexture}
+                onCheckedChange={(e) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    background: {
+                      ...iconInfo.background,
+                      noiseTexture: e,
+                    },
+                  })
+                }>
+                <Switch.Thumb className="SwitchThumb" />
+              </Switch.Root>
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span
+                className={`text-xs ${isDisabled(
+                  !iconInfo.background.noiseTexture
+                )}`}>
+                Noise Opacity
+              </span>
+
+              <div className="flex items-center justify-end gap-1">
+                <span className="text-xs text-slate-400">
+                  {iconInfo.background.noiseOpacity}%
+                </span>
+                <Slider.Root
+                  className="SliderRoot"
+                  defaultValue={[iconInfo.background.noiseOpacity]}
+                  max={100}
+                  step={1}
+                  onValueChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      background: {
+                        ...iconInfo.background,
+                        noiseOpacity: e[0],
+                      },
+                    })
+                  }>
+                  <Slider.Track className="SliderTrack">
+                    <Slider.Range className="SliderRange" />
+                  </Slider.Track>
+                  <Slider.Thumb className="SliderThumb" aria-label="Volume" />
+                </Slider.Root>
+              </div>
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -327,7 +447,7 @@ export default function SvgEditor() {
       <header className="h-14 px-4 flex justify-between items-center bg-[#1f2023] shadow backdrop-blur-xl">
         <div className="logo text-left flex items-center gap-4">
           <MainHeader />
-          <div className="w-[1px] h-[16px] bg-[#fff3] rounded-[3px]"></div>
+          {/* <div className="w-[1px] h-[16px] bg-[#fff3] rounded-[3px]"></div>
           <div className="actions gap-1">
             <Button className="text-white gap-1" variant="ghost" size="sm">
               <UndoIcon />
@@ -337,7 +457,7 @@ export default function SvgEditor() {
               <RedoIcon />
               Redo
             </Button>
-          </div>
+          </div> */}
         </div>
         <div className="md:block hidden mx-auto text-gray-500 text-center text-sm font-bold">
           <input
@@ -350,7 +470,7 @@ export default function SvgEditor() {
           <DropdownMenu open={openExportMenu} onOpenChange={setOpenExportMenu}>
             <DropdownMenuTrigger className="">
               <div
-                className="flex items-center justify-center outline-none px-3 py-1 rounded-md text-sm font-semibold bg-slate-700/70 border-slate-500/70"
+                className="flex items-center justify-center text-slate-300 border outline-none px-3 py-1 rounded-md text-sm font-semibold bg-gradient-2 border-slate-600/70"
                 onMouseMove={() => setOpenExportMenu(true)}>
                 <ExportIcon /> <span className="pl-2">Export icon</span>
               </div>
@@ -358,15 +478,15 @@ export default function SvgEditor() {
             <DropdownMenuContent
               className="bg-[#2e3031] border border-[#ffffff0d] text-sm text-[#fff6]"
               onMouseLeave={() => setOpenExportMenu(false)}>
-              <DropdownMenuItem className=" hover:text">
+              <DropdownMenuItem className="DropdownMenuItem">
                 <ImageIcon />
                 <span className="pl-2">Download</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="DropdownMenuItem">
                 <CopyIcon />
                 <span className="pl-2">Copy Image</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="DropdownMenuItem">
                 <LinkIcon />
                 <span className="pl-2">Copy Link</span>
               </DropdownMenuItem>
@@ -434,6 +554,19 @@ export default function SvgEditor() {
                 strokeWidth="0"
                 strokeOpacity="100%"
                 paintOrder="stroke"></rect>
+              {iconInfo.background.radialGlare && (
+                <rect
+                  width="512"
+                  height="512"
+                  x="0"
+                  y="0"
+                  fill="url(#r6)"
+                  rx="128"
+                  style={{ mixBlendMode: "overlay" }}></rect>
+              )}
+              {iconInfo.background.noiseTexture && (
+                <NoiseTexture opacity={iconInfo.background.noiseOpacity} />
+              )}
               <clipPath id="clip">
                 <use xlinkHref="#r4"></use>
               </clipPath>
@@ -521,7 +654,7 @@ export const PanelWrapper = ({
         position == "left"
           ? "left-sider left-6 -translate-x-180 animate-slide-left-fade"
           : "right-sider right-6 translate-x-180 animate-slide-right-fade"
-      } absolute top-6 z-10 hidden w-80 overflow-y-auto rounded-lg bg-[#232526] border border-[#ffffff0d] p-4 shadow-md transition-all duration-500 md:block`}
+      } absolute top-6 z-10 hidden w-80 overflow-y-auto backdrop-blur-xl rounded-lg bg-[#434a4d28] border border-[#ffffff0d] p-4 shadow-md transition-all duration-500 md:block`}
       style={{
         animationDelay: "0.15s",
         animationFillMode: "forwards",

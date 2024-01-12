@@ -6,13 +6,13 @@ const nextConfig = {
   reactStrictMode: process.env.NODE_ENV === "development",
   swcMinify: true,
   images: {
-    domains: ["avatars.githubusercontent.com", "lemonpay.oihub.cc"],
+    domains: ["avatars.githubusercontent.com", "iconce.com"],
   },
   async redirects() {
     return [
       {
         source: "/github",
-        destination: "https://github.com/yesmore/lemonpay",
+        destination: "https://github.com/yesmore/iconce",
         permanent: false,
       },
     ];
@@ -21,7 +21,7 @@ const nextConfig = {
     config.externals = [...config.externals, "canvas", "jsdom"];
     return config;
   },
-  transpilePackages: ['lucide-react']
+  transpilePackages: ["lucide-react"],
 };
 
 // export default withContentlayer(nextConfig)
