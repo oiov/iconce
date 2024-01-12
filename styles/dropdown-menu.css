@@ -1,3 +1,7 @@
+.DropdownMenuItem {
+  font-size: 13px;
+}
+
 .DropdownMenuItem[data-highlighted] {
   background-color: rgb(66, 66, 66);
   color: rgb(226, 226, 226);

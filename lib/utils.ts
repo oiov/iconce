@@ -12,7 +12,7 @@ export function isEmail(str: string) {
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,
-  init?: RequestInit,
+  init?: RequestInit
 ): Promise<JSON> {
   const res = await fetch(input, init);
 
@@ -33,11 +33,113 @@ export async function fetcher<JSON = any>(
 }
 
 export function toCamelCase(str: string) {
-  return str
-    // 将字符串按照连字符分割
-    .split('-')
-    // 将数组中的每个单词首字母大写
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    // 将单词数组连接成一个字符串
-    .join('');
+  return (
+    str
+      // 将字符串按照连字符分割
+      .split("-")
+      // 将数组中的每个单词首字母大写
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      // 将单词数组连接成一个字符串
+      .join("")
+  );
+}
+
+export async function copySvgAsPngToClipboard(
+  svgElement: SVGSVGElement | null
+): Promise<void> {
+  if (!svgElement) return;
+
+  const svgData = new XMLSerializer().serializeToString(svgElement);
+
+  const canvas = document.createElement("canvas");
+  const svgSize = svgElement.getBoundingClientRect();
+  canvas.width = svgSize.width;
+  canvas.height = svgSize.height;
+
+  const img = new Image();
+  img.src =
+    "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+
+  img.onload = async function () {
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          console.error("Unexpected error in toBlob()");
+          return;
+        }
+        const items = [new ClipboardItem({ "image/png": blob })];
+        await navigator.clipboard.write(items);
+      });
+    }
+  };
+}
+
+export function downloadSvgAsPng(
+  svgElement: SVGSVGElement,
+  filename: string
+): void {
+  const svgData = new XMLSerializer().serializeToString(svgElement);
+
+  const canvas = document.createElement("canvas");
+  const svgSize = svgElement.getBoundingClientRect();
+  canvas.width = svgSize.width;
+  canvas.height = svgSize.height;
+
+  const img = new Image();
+  img.src =
+    "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+
+  img.onload = function () {
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.drawImage(img, 0, 0);
+      const imgsrc = canvas.toDataURL("image/png");
+
+      const a = document.createElement("a");
+      a.download = filename;
+      a.href = imgsrc;
+      a.click();
+    }
+  };
+}
+
+export function downloadSvg(svgElement: SVGSVGElement, filename: string): void {
+  // 序列化 SVG 元素
+  const serializer = new XMLSerializer();
+  const svgStr = serializer.serializeToString(svgElement);
+
+  // 创建 Blob 对象
+  const blob = new Blob([svgStr], { type: "image/svg+xml" });
+
+  // 创建 URL
+  const url = URL.createObjectURL(blob);
+
+  // 创建下载链接
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  // 模拟点击以开始下载
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  // 清理 URL
+  URL.revokeObjectURL(url);
+}
+
+export async function copySvgToClipboard(
+  svgElement: SVGSVGElement | null
+): Promise<void> {
+  if (!svgElement) return;
+
+  const svgData = new XMLSerializer().serializeToString(svgElement);
+  try {
+    await navigator.clipboard.writeText(svgData);
+    console.log("SVG copied to clipboard");
+  } catch (err) {
+    console.error("Error in copying SVG: ", err);
+  }
 }

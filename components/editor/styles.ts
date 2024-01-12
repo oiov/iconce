@@ -1,10 +1,11 @@
 export interface IconInfo {
-  type: "emoji" | "svg"; // 图标值类型
+  filename: string;
+  type: "emoji" | "svg" | "gif"; // 图标值类型
   value: string; // 图标值
   totalSize: number; // 图标总大小
-  centerIconSize: number; // 图标内大小
   fillStyle: FillStyle;
   background: Background;
+  icon: Icon;
 }
 
 export interface FillStyle {
@@ -16,12 +17,17 @@ export interface FillStyle {
 
 export type FillType = "Solid" | "Linear";
 
+export interface Icon {
+  size: number;
+  color: string;
+}
+
 export interface Background {
   radialGlare: boolean;
   noiseTexture: boolean;
   noiseOpacity: number;
   radius: string;
-  strokeSize: string;
+  strokeSize: number;
   strokeColor: string;
   strokeOpacity: string;
 }

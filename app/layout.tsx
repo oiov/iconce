@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/config/site";
 import { getCurrentUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
+import "@/styles/checkbox.css";
 import "@/styles/globals.css";
 import "@/styles/loading.css";
 import "@/styles/select.css";
@@ -63,13 +64,7 @@ export default async function RootLayout({
           <Toaster />
           <TailwindIndicator />
         </ThemeProvider>
-        {process.env.NODE_ENV === "development" ? (
-          <></>
-        ) : (
-          <>
-            <GoogleAnalytics />
-          </>
-        )}
+        <GoogleAnalytics />
       </body>
     </html>
   );

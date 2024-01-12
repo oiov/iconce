@@ -28,7 +28,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/modal";
-import { toCamelCase } from "@/lib/utils";
+import {
+  copySvgAsPngToClipboard,
+  copySvgToClipboard,
+  downloadSvg,
+  downloadSvgAsPng,
+  toCamelCase,
+} from "@/lib/utils";
 
 import * as Select from "@radix-ui/react-select";
 import * as Slider from "@radix-ui/react-slider";
@@ -42,23 +48,30 @@ import {
   LayoutDashboard,
   Palette,
   Search,
+  X,
 } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function SvgEditor() {
+  const ref = useRef<SVGSVGElement>(null);
   const [openExportMenu, setOpenExportMenu] = useState(false);
   const [openEmojiPicker, setEmojiPicker] = useState(false);
   const [showBottomLeftPanel, setShowBottomLeftPanel] =
     useState<boolean>(false);
   const [showBottomRightPanel, setShowBottomRightPanel] =
     useState<boolean>(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+
+  const [isExportSVG, setIsExportSVG] = useState(true);
+  const [isExportPNG, setIsExportPNG] = useState(false);
 
   const [iconInfo, setIconInfo] = useState<IconInfo>({
+    filename: "icon",
     type: "svg",
     value: "search", // TODO
     totalSize: 256,
-    centerIconSize: 200,
     fillStyle: {
       fillType: "Linear",
       primaryColor: "#F5AF19",
@@ -69,10 +82,14 @@ export default function SvgEditor() {
       radialGlare: false,
       noiseTexture: false,
       noiseOpacity: 25,
-      radius: "128",
-      strokeSize: "0",
+      radius: "64",
+      strokeSize: 0,
       strokeColor: "#FFFFFF",
       strokeOpacity: "100",
+    },
+    icon: {
+      color: "#FFFFFF",
+      size: 100,
     },
   });
 
@@ -94,6 +111,13 @@ export default function SvgEditor() {
 
   const handleSearchIcon = (key: string) => {
     setseachNameResult(suppotIcons.filter((item) => item.includes(key)));
+  };
+
+  const handleExportPng = async () => {
+    if (ref.current) {
+      isExportSVG && downloadSvg(ref.current, iconInfo.filename);
+      isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+    }
   };
 
   const IconItem = (item: string) => {
@@ -136,8 +160,12 @@ export default function SvgEditor() {
             className="bg-[#2e3031] border border-[#ffffff0d] text-sm text-[#fff6]"
             onMouseLeave={() => setEmojiPicker(false)}>
             <EmojiPicker
-              onEmojiSelect={(e) => {
-                setIconInfo({ ...iconInfo, type: "emoji", value: e });
+              onEmojiSelect={(e, src) => {
+                if (src && src.endsWith(".gif")) {
+                  setIconInfo({ ...iconInfo, type: "gif", value: src });
+                } else {
+                  setIconInfo({ ...iconInfo, type: "emoji", value: e });
+                }
                 setEmojiPicker(false);
               }}
             />
@@ -439,11 +467,183 @@ export default function SvgEditor() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      <Accordion className="w-full" type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
+            Border
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3 p-2">
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className={"text-xs"}>Stroke size</span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="number"
+                  defaultValue={iconInfo.background.strokeSize}
+                  onInput={(v) => v.currentTarget.value.replace(/[^\d]/g, "")}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      background: {
+                        ...iconInfo.background,
+                        strokeSize: Number(e.target.value) || 0,
+                      },
+                    })
+                  }
+                />
+                <div className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-400">
+                  px
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span
+                className={`text-xs ${isDisabled(
+                  iconInfo.background.strokeSize === 0
+                )}`}>
+                Stroke Color
+              </span>
+              <ColorPicker
+                defaultColor={iconInfo.background.strokeColor}
+                onChoose={(color) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    background: {
+                      ...iconInfo.background,
+                      strokeColor: color,
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span
+                className={`text-xs ${isDisabled(
+                  iconInfo.background.strokeSize === 0
+                )}`}>
+                Stroke opacity
+              </span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="number"
+                  defaultValue={iconInfo.background.strokeOpacity}
+                  onInput={(v) => v.currentTarget.value.replace(/[^\d]/g, "")}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      background: {
+                        ...iconInfo.background,
+                        strokeOpacity: e.target.value || "100",
+                      },
+                    })
+                  }
+                />
+                <div className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-400">
+                  %
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className={"text-xs"}>Radius</span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="number"
+                  defaultValue={iconInfo.background.radius}
+                  onInput={(v) => v.currentTarget.value.replace(/[^\d]/g, "")}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      background: {
+                        ...iconInfo.background,
+                        radius: e.target.value || "128",
+                      },
+                    })
+                  }
+                />
+                <div className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-400">
+                  px
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <Accordion className="w-full" type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
+            Icon
+          </AccordionTrigger>
+          <AccordionContent className="space-y-3 p-2">
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className={`text-xs`}>Color</span>
+              <ColorPicker
+                defaultColor={iconInfo.icon.color}
+                onChoose={(color) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    icon: {
+                      ...iconInfo.icon,
+                      color: color,
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className={"text-xs"}>Size</span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="number"
+                  defaultValue={iconInfo.icon.size}
+                  onInput={(v) => v.currentTarget.value.replace(/[^\d]/g, "")}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      icon: {
+                        ...iconInfo.icon,
+                        size: Number(e.target.value) || 0,
+                      },
+                    })
+                  }
+                />
+                <div className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-400">
+                  px
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className={"text-xs"}>Total Size</span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="number"
+                  defaultValue={iconInfo.totalSize}
+                  onInput={(v) => v.currentTarget.value.replace(/[^\d]/g, "")}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      totalSize: Number(e.target.value) || 0,
+                    })
+                  }
+                />
+                <div className="absolute top-1/2 transform -translate-y-1/2 right-2 text-gray-400">
+                  px
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 
   return (
-    <div className="svg-editor w-screen h-screen">
+    <div className="svg-editor w-screen h-screen relative">
       <header className="h-14 px-4 flex justify-between items-center bg-[#1f2023] shadow backdrop-blur-xl">
         <div className="logo text-left flex items-center gap-4">
           <MainHeader />
@@ -459,34 +659,69 @@ export default function SvgEditor() {
             </Button>
           </div> */}
         </div>
-        <div className="md:block hidden mx-auto text-gray-500 text-center text-sm font-bold">
-          <input
-            defaultValue="filename"
-            className="text-center border-none outline-none  bg-[#1f2023]"
-            type="text"
-          />
+        <div
+          className="absolute top-[50%] left-[50%] md:block hidden mx-auto text-gray-500 text-center text-sm font-bold"
+          style={{
+            transform: "translate(-50%,-50%)",
+          }}>
+          <div
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={(e) =>
+              setIconInfo({
+                ...iconInfo,
+                filename: e.currentTarget.innerText.slice(0, 100) || "",
+              })
+            }
+            className="text-center cursor-text input-ext-png border-none outline-none bg-[#1f2023]">
+            {iconInfo.filename}
+          </div>
         </div>
         <div className="text-right">
           <DropdownMenu open={openExportMenu} onOpenChange={setOpenExportMenu}>
             <DropdownMenuTrigger className="">
               <div
                 className="flex items-center justify-center text-slate-300 border outline-none px-3 py-1 rounded-md text-sm font-semibold bg-gradient-2 border-slate-600/70"
-                onMouseMove={() => setOpenExportMenu(true)}>
+                onMouseMove={() => setOpenExportMenu(true)}
+                onClick={() => setShowExportModal(true)}>
                 <ExportIcon /> <span className="pl-2">Export icon</span>
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="bg-[#2e3031] border border-[#ffffff0d] text-sm text-[#fff6]"
               onMouseLeave={() => setOpenExportMenu(false)}>
-              <DropdownMenuItem className="DropdownMenuItem">
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => {
+                  setOpenExportMenu(false);
+                  setShowExportModal(!showExportModal);
+                }}>
                 <ImageIcon />
                 <span className="pl-2">Download</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="DropdownMenuItem">
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => {
+                  copySvgAsPngToClipboard(ref.current);
+                  toast("Copy image to clipboard", {
+                    style: { backgroundColor: "#3b3b3b", color: "white" },
+                  });
+                }}>
                 <CopyIcon />
                 <span className="pl-2">Copy Image</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="DropdownMenuItem">
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => {
+                  copySvgToClipboard(ref.current);
+                  toast("Copy svg to clipboard", {
+                    style: { backgroundColor: "#3b3b3b", color: "white" },
+                  });
+                }}>
+                <CopyIcon />
+                <span className="pl-2">Copy Svg</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
                 <LinkIcon />
                 <span className="pl-2">Copy Link</span>
               </DropdownMenuItem>
@@ -531,37 +766,38 @@ export default function SvgEditor() {
           }}>
           <div className="relative">
             <svg
-              className=""
+              ref={ref}
+              id="iconce-svg"
               width={iconInfo.totalSize}
               height={iconInfo.totalSize}
-              viewBox={`0 0 512 512`}
+              viewBox={`0 0 ${iconInfo.totalSize} ${iconInfo.totalSize}`}
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink">
               <rect
                 id="r4"
-                width="512"
-                height="512"
-                x="0"
-                y="0"
-                rx="128"
+                width={iconInfo.totalSize - iconInfo.background.strokeSize}
+                height={iconInfo.totalSize - iconInfo.background.strokeSize}
+                x={iconInfo.background.strokeSize / 2}
+                y={iconInfo.background.strokeSize / 2}
+                rx={iconInfo.background.radius}
                 fill={
                   iconInfo.fillStyle.fillType === "Linear"
                     ? "url(#r5)"
                     : iconInfo.fillStyle.primaryColor
                 }
-                stroke="#FFFFFF"
-                strokeWidth="0"
-                strokeOpacity="100%"
+                stroke={iconInfo.background.strokeColor}
+                strokeWidth={iconInfo.background.strokeSize}
+                strokeOpacity={`${iconInfo.background.strokeOpacity}%`}
                 paintOrder="stroke"></rect>
               {iconInfo.background.radialGlare && (
                 <rect
-                  width="512"
-                  height="512"
-                  x="0"
-                  y="0"
+                  width={iconInfo.totalSize - iconInfo.background.strokeSize}
+                  height={iconInfo.totalSize - iconInfo.background.strokeSize}
+                  x={iconInfo.background.strokeSize / 2}
+                  y={iconInfo.background.strokeSize / 2}
                   fill="url(#r6)"
-                  rx="128"
+                  rx={iconInfo.background.radius}
                   style={{ mixBlendMode: "overlay" }}></rect>
               )}
               {iconInfo.background.noiseTexture && (
@@ -596,21 +832,31 @@ export default function SvgEditor() {
                 <Icon
                   className="text-white"
                   name={toCamelCase(iconInfo.value) as any}
-                  width={iconInfo.centerIconSize}
-                  height={iconInfo.centerIconSize}
-                  x={156}
-                  y={156}
+                  width={iconInfo.icon.size}
+                  height={iconInfo.icon.size}
+                  color={iconInfo.icon.color}
+                  alignmentBaseline="middle"
+                  x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+                  y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
                 />
-              ) : (
+              ) : iconInfo.type === "emoji" ? (
                 <text
-                  x="50%" // 将文本水平居中
-                  y="50%" // 将文本垂直居中
-                  fontSize={iconInfo.centerIconSize}
+                  x="50%"
+                  y="50%"
+                  fontSize={iconInfo.icon.size}
                   fill="white"
                   textAnchor="middle"
                   dominantBaseline="middle">
                   {iconInfo.value}
                 </text>
+              ) : (
+                <image
+                  href={iconInfo.value}
+                  x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+                  y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+                  height={iconInfo.icon.size}
+                  width={iconInfo.icon.size}
+                />
               )}
             </svg>
             <span
@@ -624,6 +870,7 @@ export default function SvgEditor() {
         <PanelWrapper position="right">{renderRightPanel()}</PanelWrapper>
       </main>
 
+      {/* Modal */}
       <Modal
         showModal={showBottomLeftPanel}
         setShowModal={setShowBottomLeftPanel}
@@ -636,6 +883,55 @@ export default function SvgEditor() {
         showBlur={false}>
         <div className="p-4">{renderRightPanel()}</div>
       </Modal>
+      <Modal showModal={showExportModal} setShowModal={setShowExportModal}>
+        <div className="p-4 bg-[#282b2c] rounded-md text-white min-w-[300px] max-w-[500px] shadow-lg">
+          <div className="flex items-center justify-between text-[#b9b9b9] text-sm">
+            <span className="font-bold">Exports</span>
+            <X
+              className="w-4 h-4 cursor-pointer"
+              onClick={() => setShowExportModal(false)}
+            />
+          </div>
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm">{iconInfo.filename}.svg</span>
+              <span className="text-xs text-slate-400 ml-auto h-3">
+                {iconInfo.totalSize}x{iconInfo.totalSize}
+              </span>
+              <label className="checkBox">
+                <input
+                  id="ch1"
+                  type="checkbox"
+                  defaultChecked={isExportSVG}
+                  onChange={(e) => setIsExportSVG(e.target.checked)}
+                />
+                <div className="transition1"></div>
+              </label>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="text-sm">{iconInfo.filename}.png</div>
+              <div className="text-xs text-slate-400 ml-auto h-3">
+                {iconInfo.totalSize}x{iconInfo.totalSize}
+              </div>
+              <label className="checkBox">
+                <input
+                  id="ch2"
+                  type="checkbox"
+                  defaultChecked={isExportPNG}
+                  onChange={(e) => setIsExportPNG(e.target.checked)}
+                />
+                <div className="transition1"></div>
+              </label>
+            </div>
+          </div>
+          <button
+            onClick={handleExportPng}
+            className="bg-[#3d43ff8e] text-white rounded-md text-sm px-3 py-2 w-full mt-6 hover:bg-[#3d43ffa6] transition-all duration-300">
+            export icon
+          </button>
+        </div>
+      </Modal>
+      <Toaster />
     </div>
   );
 }

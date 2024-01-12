@@ -124,3 +124,7 @@ input {
 input:focus {
   outline: none;
 }
+
+.input-ext-png:not(:empty):after {
+  content: ".png";
+}
