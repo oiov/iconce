@@ -1,13 +1,23 @@
 import { SiteConfig } from "@/types/siteConfig";
 
 const baseSiteConfig = {
-  name: "Iconce",
-  description:
-    "Quickly build a membership subscription SaaS system based on Lemonsquezy",
+  name: "ICONCE - Generate awesome SVG icons within 10 seconds",
+  description: "Generate awesome SVG icons within 10 seconds",
   url: "https://iconce.com",
   ogImage: "https://iconce.com/og.jpg",
   metadataBase: new URL("https://iconce.com"),
-  keywords: ["Payment", "Lemonsqueeze", "Saas", "Subscription", "Platform"],
+  keywords: [
+    "SVG",
+    "icon",
+    "generator",
+    "gif",
+    "Platform",
+    "SVG generator",
+    "SVG animation",
+    "SVG synthesizer",
+    "png",
+    "svg to png",
+  ],
   authors: [
     {
       name: "yesmore",
@@ -17,8 +27,8 @@ const baseSiteConfig = {
   creator: "@yesmore",
   // themeColor: "#fff",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
+    icon: "/ce.svg",
+    shortcut: "/ce.svg",
     apple: "/apple-touch-icon.png",
   },
   links: {

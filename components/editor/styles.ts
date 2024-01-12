@@ -6,6 +6,7 @@ export interface IconInfo {
   fillStyle: FillStyle;
   background: Background;
   icon: Icon;
+  animate: boolean;
 }
 
 export interface FillStyle {

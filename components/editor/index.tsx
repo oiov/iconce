@@ -51,6 +51,7 @@ import {
   X,
 } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -72,6 +73,7 @@ export default function SvgEditor() {
     type: "svg",
     value: "search", // TODO
     totalSize: 256,
+    animate: false,
     fillStyle: {
       fillType: "Linear",
       primaryColor: "#F5AF19",
@@ -89,7 +91,7 @@ export default function SvgEditor() {
     },
     icon: {
       color: "#FFFFFF",
-      size: 100,
+      size: 128,
     },
   });
 
@@ -290,7 +292,7 @@ export default function SvgEditor() {
           <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
             Fill Styles
           </AccordionTrigger>
-          <AccordionContent className="space-y-2 p-2">
+          <AccordionContent className="p-2">
             <div className="flex items-center justify-between text-white mt-2">
               <span className="text-xs">Fill Type</span>
               <Select.Root
@@ -384,6 +386,27 @@ export default function SvgEditor() {
                   °
                 </div>
               </div>
+            </div>
+            <div className="flex items-center justify-between text-white mt-3">
+              <span
+                className={
+                  "text-xs " +
+                  `${isDisabled(iconInfo.fillStyle.fillType === "Solid")}`
+                }>
+                Animate (svg)
+              </span>
+              <Switch.Root
+                className="SwitchRoot"
+                id="airplane-mode"
+                defaultChecked={iconInfo.animate}
+                onCheckedChange={(e) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    animate: e,
+                  })
+                }>
+                <Switch.Thumb className="SwitchThumb" />
+              </Switch.Root>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -760,7 +783,7 @@ export default function SvgEditor() {
         <div
           className="preview absolute top-[50%] left-[50%] text-white"
           style={{
-            transform: "translate(-50%,-50%)",
+            transform: "translate(-50%,-60%)",
             width: iconInfo.totalSize,
             height: iconInfo.totalSize,
           }}>
@@ -811,11 +834,31 @@ export default function SvgEditor() {
                   id="r5"
                   gradientUnits="userSpaceOnUse"
                   gradientTransform={`rotate(${iconInfo.fillStyle.angle})`}
-                  style={{ transformOrigin: "center center" }}>
-                  <stop stopColor={iconInfo.fillStyle.primaryColor}></stop>
+                  style={{
+                    transformOrigin: "center center",
+                  }}>
+                  <stop stopColor={iconInfo.fillStyle.primaryColor}>
+                    {iconInfo.animate && (
+                      <animate
+                        attributeName="stop-color"
+                        values={`${iconInfo.fillStyle.primaryColor};${iconInfo.fillStyle.secondaryColor};${iconInfo.fillStyle.primaryColor}`}
+                        dur="3s"
+                        repeatCount="indefinite"
+                      />
+                    )}
+                  </stop>
                   <stop
                     offset="1"
-                    stopColor={iconInfo.fillStyle.secondaryColor}></stop>
+                    stopColor={iconInfo.fillStyle.secondaryColor}>
+                    {iconInfo.animate && (
+                      <animate
+                        attributeName="stop-color"
+                        values={`${iconInfo.fillStyle.secondaryColor};${iconInfo.fillStyle.primaryColor};${iconInfo.fillStyle.secondaryColor}`}
+                        dur="3s"
+                        repeatCount="indefinite"
+                      />
+                    )}
+                  </stop>
                 </linearGradient>
                 <radialGradient
                   id="r6"
@@ -844,9 +887,10 @@ export default function SvgEditor() {
                   x="50%"
                   y="50%"
                   fontSize={iconInfo.icon.size}
+                  fontWeight={700}
                   fill="white"
                   textAnchor="middle"
-                  dominantBaseline="middle">
+                  dy="0.36em">
                   {iconInfo.value}
                 </text>
               ) : (
@@ -884,7 +928,14 @@ export default function SvgEditor() {
         <div className="p-4">{renderRightPanel()}</div>
       </Modal>
       <Modal showModal={showExportModal} setShowModal={setShowExportModal}>
-        <div className="p-4 bg-[#282b2c] rounded-md text-white min-w-[300px] max-w-[500px] shadow-lg">
+        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white min-w-[300px] max-w-[500px] shadow-lg">
+          <Image
+            alt="export party"
+            src="/party.svg"
+            className="w-16 h-16 mx-auto mb-3"
+            width="20"
+            height="20"
+          />
           <div className="flex items-center justify-between text-[#b9b9b9] text-sm">
             <span className="font-bold">Exports</span>
             <X
