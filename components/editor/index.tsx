@@ -33,6 +33,7 @@ import {
   copySvgToClipboard,
   downloadSvg,
   downloadSvgAsPng,
+  generateURL,
   toCamelCase,
 } from "@/lib/utils";
 
@@ -51,11 +52,12 @@ import {
   X,
 } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function SvgEditor() {
+  const sp = useSearchParams();
   const ref = useRef<SVGSVGElement>(null);
   const [openExportMenu, setOpenExportMenu] = useState(false);
   const [openEmojiPicker, setEmojiPicker] = useState(false);
@@ -69,29 +71,41 @@ export default function SvgEditor() {
   const [isExportPNG, setIsExportPNG] = useState(false);
 
   const [iconInfo, setIconInfo] = useState<IconInfo>({
-    filename: "icon",
-    type: "svg",
-    value: "search", // TODO
-    totalSize: 256,
-    animate: false,
+    filename: sp.get("filename") || "icon",
+    type:
+      sp.get("type") === "gif"
+        ? "gif"
+        : sp.get("type") === "svg"
+        ? "svg"
+        : sp.get("type") === "text"
+        ? "text"
+        : "gif",
+    value: sp.get("value") || `https://iconce.com/icon/gif/party-face.gif`,
+    totalSize: Number(sp.get("totalSize") || "256"),
+    animate: Boolean(sp.get("animate") === "true"),
     fillStyle: {
-      fillType: "Linear",
-      primaryColor: "#F5AF19",
-      secondaryColor: "#F12711",
-      angle: "45",
+      fillType:
+        (sp.get("fillType") === "Linear"
+          ? "Linear"
+          : sp.get("fillType") === "Solid"
+          ? "Solid"
+          : "Linear") || "Linear",
+      primaryColor: sp.get("primaryColor") || "#00B4DB",
+      secondaryColor: sp.get("secondaryColor") || "#003357",
+      angle: sp.get("angle") || "45",
     },
     background: {
-      radialGlare: false,
-      noiseTexture: false,
-      noiseOpacity: 25,
-      radius: "64",
-      strokeSize: 0,
-      strokeColor: "#FFFFFF",
-      strokeOpacity: "100",
+      radialGlare: Boolean(sp.get("radialGlare") === "true"),
+      noiseTexture: Boolean(sp.get("noiseTexture") === "true"),
+      noiseOpacity: Number(sp.get("noiseOpacity") || "25"),
+      radius: sp.get("radius") || "64",
+      strokeSize: Number(sp.get("strokeSize") || "0"),
+      strokeColor: sp.get("strokeColor") || "#FFFFFF",
+      strokeOpacity: sp.get("strokeOpacity") || "100",
     },
     icon: {
-      color: "#FFFFFF",
-      size: 128,
+      color: sp.get("color") || "#FFFFFF",
+      size: Number(sp.get("size") || "128"),
     },
   });
 
@@ -119,6 +133,18 @@ export default function SvgEditor() {
     if (ref.current) {
       isExportSVG && downloadSvg(ref.current, iconInfo.filename);
       isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      const link = generateURL(iconInfo);
+      await navigator.clipboard.writeText(link);
+      toast("Copied link to clipboard", {
+        style: { backgroundColor: "#3b3b3b", color: "white" },
+      });
+    } catch (err) {
+      console.error("Error in copying", err);
     }
   };
 
@@ -153,9 +179,11 @@ export default function SvgEditor() {
         </label>
 
         <DropdownMenu open={openEmojiPicker} onOpenChange={setEmojiPicker}>
-          <DropdownMenuTrigger className="">
+          <DropdownMenuTrigger className="hidden md:block">
             <div className="w-10 h-10 inline-flex items-center justify-center transition-all duration-300 bg-[#ffffff1a] outline-none rounded-md border border-[#ffffff0d] hover:bg-[#ececec36]">
-              {iconInfo.type === "emoji" ? iconInfo.value : "😎"}
+              {iconInfo.type === "text" && !iconInfo.value.endsWith(".gif")
+                ? iconInfo.value
+                : "😎"}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -166,7 +194,7 @@ export default function SvgEditor() {
                 if (src && src.endsWith(".gif")) {
                   setIconInfo({ ...iconInfo, type: "gif", value: src });
                 } else {
-                  setIconInfo({ ...iconInfo, type: "emoji", value: e });
+                  setIconInfo({ ...iconInfo, type: "text", value: e });
                 }
                 setEmojiPicker(false);
               }}
@@ -217,72 +245,6 @@ export default function SvgEditor() {
 
   const renderRightPanel = () => (
     <div className="flex flex-col gap-3">
-      <Accordion
-        className="w-full"
-        type="single"
-        defaultValue="item-1"
-        collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
-            Fill Presets
-          </AccordionTrigger>
-          <AccordionContent className="p-2 grid grid-cols-7 gap-4 items-start justify-start pt-3">
-            {BackgroundFillPresets.map((item, index) => (
-              <svg
-                className="rounded cursor-pointer w-5 h-5 flex-shrink-0 overflow-hidden"
-                key={index}
-                onClick={() =>
-                  setIconInfo({
-                    ...iconInfo,
-                    fillStyle: { ...iconInfo.fillStyle, ...item },
-                  })
-                }
-                width="20"
-                height="20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink">
-                <rect
-                  id={`ra${index}`}
-                  width="20"
-                  height="20"
-                  x="0"
-                  y="0"
-                  rx="0"
-                  fill={`url(#rt${index})`}
-                  stroke="#FFFFFF"
-                  strokeWidth="0"
-                  strokeOpacity="100%"
-                  paintOrder="stroke"></rect>
-                <clipPath id="clip">
-                  <use xlinkHref={`ra${index}`}></use>
-                </clipPath>
-                <defs>
-                  <linearGradient
-                    id={`rt${index}`}
-                    gradientUnits="userSpaceOnUse"
-                    gradientTransform="rotate(45)"
-                    style={{ transformOrigin: "center center" }}>
-                    <stop stopColor={item.primaryColor}></stop>
-                    <stop offset="1" stopColor={item.secondaryColor}></stop>
-                  </linearGradient>
-                  <radialGradient
-                    id="r9"
-                    cx="0"
-                    cy="0"
-                    r="1"
-                    gradientUnits="userSpaceOnUse"
-                    gradientTransform="translate(10) rotate(90) scale(20)">
-                    <stop stopColor="white"></stop>
-                    <stop offset="1" stopColor="white" stopOpacity="0"></stop>
-                  </radialGradient>
-                </defs>
-              </svg>
-            ))}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
       <Accordion
         className="w-full"
         type="single"
@@ -408,6 +370,72 @@ export default function SvgEditor() {
                 <Switch.Thumb className="SwitchThumb" />
               </Switch.Root>
             </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <Accordion
+        className="w-full"
+        type="single"
+        defaultValue="item-1"
+        collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
+            Fill Presets
+          </AccordionTrigger>
+          <AccordionContent className="p-2 grid grid-cols-7 gap-4 items-start justify-start pt-3">
+            {BackgroundFillPresets.map((item, index) => (
+              <svg
+                className="rounded cursor-pointer w-5 h-5 flex-shrink-0 overflow-hidden"
+                key={index}
+                onClick={() =>
+                  setIconInfo({
+                    ...iconInfo,
+                    fillStyle: { ...iconInfo.fillStyle, ...item },
+                  })
+                }
+                width="20"
+                height="20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink">
+                <rect
+                  id={`ra${index}`}
+                  width="20"
+                  height="20"
+                  x="0"
+                  y="0"
+                  rx="0"
+                  fill={`url(#rt${index})`}
+                  stroke="#FFFFFF"
+                  strokeWidth="0"
+                  strokeOpacity="100%"
+                  paintOrder="stroke"></rect>
+                <clipPath id="clip">
+                  <use xlinkHref={`ra${index}`}></use>
+                </clipPath>
+                <defs>
+                  <linearGradient
+                    id={`rt${index}`}
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="rotate(45)"
+                    style={{ transformOrigin: "center center" }}>
+                    <stop stopColor={item.primaryColor}></stop>
+                    <stop offset="1" stopColor={item.secondaryColor}></stop>
+                  </linearGradient>
+                  <radialGradient
+                    id="r9"
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(10) rotate(90) scale(20)">
+                    <stop stopColor="white"></stop>
+                    <stop offset="1" stopColor="white" stopOpacity="0"></stop>
+                  </radialGradient>
+                </defs>
+              </svg>
+            ))}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -602,6 +630,23 @@ export default function SvgEditor() {
           </AccordionTrigger>
           <AccordionContent className="space-y-3 p-2">
             <div className="flex items-center justify-between text-white mt-2">
+              <span className={"text-xs"}>Text</span>
+              <div className="relative">
+                <input
+                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+                  type="text"
+                  defaultValue={iconInfo.value}
+                  onChange={(e) =>
+                    setIconInfo({
+                      ...iconInfo,
+                      type: "text",
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
               <span className={`text-xs`}>Color</span>
               <ColorPicker
                 defaultColor={iconInfo.icon.color}
@@ -700,7 +745,7 @@ export default function SvgEditor() {
             {iconInfo.filename}
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-right gap-3 flex items-center">
           <DropdownMenu open={openExportMenu} onOpenChange={setOpenExportMenu}>
             <DropdownMenuTrigger className="">
               <div
@@ -726,7 +771,7 @@ export default function SvgEditor() {
                 className="DropdownMenuItem cursor-pointer"
                 onClick={() => {
                   copySvgAsPngToClipboard(ref.current);
-                  toast("Copy image to clipboard", {
+                  toast("Copied image to clipboard", {
                     style: { backgroundColor: "#3b3b3b", color: "white" },
                   });
                 }}>
@@ -737,16 +782,24 @@ export default function SvgEditor() {
                 className="DropdownMenuItem cursor-pointer"
                 onClick={() => {
                   copySvgToClipboard(ref.current);
-                  toast("Copy svg to clipboard", {
+                  toast("Copied svg to clipboard", {
                     style: { backgroundColor: "#3b3b3b", color: "white" },
                   });
                 }}>
                 <CopyIcon />
                 <span className="pl-2">Copy Svg</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={handleCopyLink}>
                 <LinkIcon />
-                <span className="pl-2">Copy Link</span>
+                <span className="pl-2">Share Link</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => toast("Working...")}>
+                <LinkIcon />
+                <span className="pl-2">API Link</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -759,23 +812,25 @@ export default function SvgEditor() {
           height: "calc(100vh - 54px)",
         }}>
         {/* tools */}
-        <div className="block md:hidden">
-          <button
-            className="absolute top-6 left-0 rounded-r-lg bg-[#232526] p-4 shadow-md text-slate-500 hover:bg-[#3b3d3f]"
-            onClick={() => {
-              setShowBottomRightPanel(false);
-              setShowBottomLeftPanel(!showBottomLeftPanel);
-            }}>
-            <LayoutDashboard />
-          </button>
-          <button
-            className="absolute top-6 right-0 rounded-l-lg bg-[#232526] p-4 shadow-md text-slate-500 hover:bg-[#3b3d3f]"
-            onClick={() => {
-              setShowBottomLeftPanel(false);
-              setShowBottomRightPanel(!showBottomRightPanel);
-            }}>
-            <Palette />
-          </button>
+        <div className="block md:hidden absolute bottom-0 w-full">
+          <div className="flex w-full items-center justify-around">
+            <button
+              className="rounded-tl-lg w-full transition-all duration-300 bg-[#232526] p-4 shadow-md text-slate-300 hover:bg-[#3b3d3f]"
+              onClick={() => {
+                setShowBottomRightPanel(false);
+                setShowBottomLeftPanel(!showBottomLeftPanel);
+              }}>
+              <LayoutDashboard className="mx-auto" />
+            </button>
+            <button
+              className="rounded-tr-lg w-full transition-all duration-300 bg-[#232526] p-4 shadow-md text-slate-300 hover:bg-[#3b3d3f]"
+              onClick={() => {
+                setShowBottomLeftPanel(false);
+                setShowBottomRightPanel(!showBottomRightPanel);
+              }}>
+              <Palette className="mx-auto" />
+            </button>
+          </div>
         </div>
 
         <PanelWrapper position="left">{renderLeftPanel()}</PanelWrapper>
@@ -882,15 +937,16 @@ export default function SvgEditor() {
                   x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
                   y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
                 />
-              ) : iconInfo.type === "emoji" ? (
+              ) : iconInfo.type === "text" &&
+                !iconInfo.value.endsWith(".gif") ? (
                 <text
                   x="50%"
                   y="50%"
                   fontSize={iconInfo.icon.size}
                   fontWeight={700}
-                  fill="white"
+                  fill={iconInfo.icon.color}
                   textAnchor="middle"
-                  dy="0.36em">
+                  dy="0.35em">
                   {iconInfo.value}
                 </text>
               ) : (
@@ -928,14 +984,14 @@ export default function SvgEditor() {
         <div className="p-4">{renderRightPanel()}</div>
       </Modal>
       <Modal showModal={showExportModal} setShowModal={setShowExportModal}>
-        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white min-w-[300px] max-w-[500px] shadow-lg">
-          <Image
+        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white min-w-[300px] max-w-[768px] shadow-lg">
+          {/* <Image
             alt="export party"
             src="/party.svg"
             className="w-16 h-16 mx-auto mb-3"
             width="20"
             height="20"
-          />
+          /> */}
           <div className="flex items-center justify-between text-[#b9b9b9] text-sm">
             <span className="font-bold">Exports</span>
             <X

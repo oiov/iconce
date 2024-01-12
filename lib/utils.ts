@@ -1,3 +1,4 @@
+import { IconInfo } from "@/components/editor/styles";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -143,3 +144,24 @@ export async function copySvgToClipboard(
     console.error("Error in copying SVG: ", err);
   }
 }
+
+export const generateURL = (params: IconInfo) => {
+  const flattenObject = (obj: any): any => {
+    return Object.keys(obj).reduce((acc: any, key: any) => {
+      if (typeof obj[key] === "object")
+        Object.assign(acc, flattenObject(obj[key]));
+      else acc[key] = obj[key];
+      return acc;
+    }, {});
+  };
+
+  const flatParams = flattenObject(params);
+  const query = Object.entries(flatParams)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value as any)}`
+    )
+    .join("&");
+
+  return `${window.origin}/?${query}`;
+};

@@ -29,7 +29,7 @@ const baseSiteConfig = {
   icons: {
     icon: "/ce.svg",
     shortcut: "/ce.svg",
-    apple: "/apple-touch-icon.png",
+    apple: "/ce.svg",
   },
   links: {
     twitter: "https://twitter.com/yesmooore",
