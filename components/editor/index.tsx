@@ -635,7 +635,7 @@ export default function SvgEditor() {
                 <input
                   className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
                   type="text"
-                  defaultValue={iconInfo.value}
+                  defaultValue={iconInfo.type === "text" ? iconInfo.value : ""}
                   onChange={(e) =>
                     setIconInfo({
                       ...iconInfo,
