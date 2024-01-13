@@ -112,6 +112,7 @@ export default function SvgEditor() {
     icon: {
       color: sp.get("color") || "#FFFFFF",
       size: Number(sp.get("size") || "128"),
+      family: sp.get("family") || "sans-serif",
     },
   });
 
@@ -119,7 +120,7 @@ export default function SvgEditor() {
   const [suppotIcons, setSuppotIcons] = useState<string[]>([]);
 
   const [iconPage, setIconPage] = useState(1);
-  const [perPage] = useState(100);
+  const [perPage] = useState(40);
   const startIndex = (iconPage - 1) * perPage;
   const endIndex = startIndex + perPage;
 
@@ -214,22 +215,24 @@ export default function SvgEditor() {
   const renderLeftPanel = () => (
     <div className="">
       <div className="flex items-center gap-2 justify-between">
-        <label className="relative inline-flex">
-          <Search className="w-4 h-4 absolute top-3 left-4 z-10 text-[#ffffff99]" />
-          <input
-            onChange={(e) => handleSearchIcon(e.target.value)}
-            type="text"
-            className="w-full md:w-[190px] h-10 text-sm text-white pl-10 pr-11 bg-[#3d3d3d] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
-            placeholder="Search Icons…"
-          />
-        </label>
+        <input
+          className="bg-[#3d3d3d] w-full md:w-[190px] h-10 text-white placeholder:text-gray-400 after:content-['*'] rounded-[6px] px-2 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+          type="text"
+          placeholder="Input text icon"
+          defaultValue={iconInfo.type === "text" ? iconInfo.value : ""}
+          onChange={(e) =>
+            setIconInfo({
+              ...iconInfo,
+              type: "text",
+              value: e.target.value,
+            })
+          }
+        />
 
         <DropdownMenu open={openEmojiPicker} onOpenChange={setEmojiPicker}>
           <DropdownMenuTrigger className="hidden md:block">
             <div className="w-10 h-10 inline-flex items-center justify-center transition-all duration-300 bg-[#ffffff1a] outline-none rounded-md border border-[#ffffff0d] hover:bg-[#ececec36]">
-              {iconInfo.type === "text" && !iconInfo.value.endsWith(".gif")
-                ? iconInfo.value
-                : "😎"}
+              😎
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -247,6 +250,7 @@ export default function SvgEditor() {
             />
           </DropdownMenuContent>
         </DropdownMenu>
+
         <IconButton>
           <input
             className="absolute opacity-0 w-10 h-10"
@@ -258,9 +262,19 @@ export default function SvgEditor() {
         </IconButton>
       </div>
 
+      <label className="relative inline-flex mt-4 w-full">
+        <Search className="w-4 h-4 absolute top-3 left-4 z-10 text-[#ffffff99]" />
+        <input
+          onChange={(e) => handleSearchIcon(e.target.value)}
+          type="text"
+          className="w-full h-10 text-sm text-white pl-10 pr-11 bg-[#3d3d3d] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
+          placeholder="Search Icons…"
+        />
+      </label>
+
       <motion.div
         className="grid grid-cols-4 gap-2 mt-4 mb-4 overflow-auto"
-        style={{ height: "calc(100vh - 250px)" }}
+        style={{ height: "calc(100vh - 300px)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}>
@@ -578,23 +592,6 @@ export default function SvgEditor() {
           </AccordionTrigger>
           <AccordionContent className="space-y-3 p-2">
             <div className="flex items-center justify-between text-white mt-2">
-              <span className={"text-xs"}>Text</span>
-              <div className="relative">
-                <input
-                  className="bg-[#0003] text-white after:content-['*'] w-[100px] rounded-[6px] px-2 py-1 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
-                  type="text"
-                  defaultValue={iconInfo.type === "text" ? iconInfo.value : ""}
-                  onChange={(e) =>
-                    setIconInfo({
-                      ...iconInfo,
-                      type: "text",
-                      value: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between text-white mt-2">
               <span className={`text-xs`}>Color</span>
               <ColorPicker
                 defaultColor={iconInfo.icon.color}
@@ -608,6 +605,53 @@ export default function SvgEditor() {
                   })
                 }
               />
+            </div>
+            <div className="flex items-center justify-between text-white mt-2">
+              <span className="text-xs">Font Family</span>
+              <Select.Root
+                defaultValue={iconInfo.icon.family}
+                onValueChange={(val) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    icon: {
+                      ...iconInfo.icon,
+                      family: val,
+                    },
+                  })
+                }>
+                <Select.Trigger className="SelectTrigger">
+                  {iconInfo.icon.family}
+                  <Select.Icon>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                  </Select.Icon>
+                </Select.Trigger>
+                <Select.Content className="SelectContent" position="popper">
+                  <Select.Item className="SelectItem" value="serif">
+                    Serif
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="sans-serif">
+                    Sans-serif
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="monospace">
+                    Monospace
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="cursive">
+                    Cursive
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="fantasy">
+                    Fantasy
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="system-ui">
+                    System UI
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="math">
+                    Math
+                  </Select.Item>
+                  <Select.Item className="SelectItem" value="fangsong">
+                    Fangsong
+                  </Select.Item>
+                </Select.Content>
+              </Select.Root>
             </div>
             <div className="flex items-center justify-between text-white mt-2">
               <span className={"text-xs"}>Size</span>
@@ -890,12 +934,12 @@ export default function SvgEditor() {
                 <LinkIcon />
                 <span className="pl-2">Share Link</span>
               </DropdownMenuItem>
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 className="DropdownMenuItem cursor-pointer"
                 onClick={() => toast("Working...")}>
                 <LinkIcon />
                 <span className="pl-2">API Link</span>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -938,124 +982,7 @@ export default function SvgEditor() {
             height: iconInfo.totalSize,
           }}>
           <div className="relative">
-            <svg
-              ref={ref}
-              id="iconce-svg"
-              width={iconInfo.totalSize}
-              height={iconInfo.totalSize}
-              viewBox={`0 0 ${iconInfo.totalSize} ${iconInfo.totalSize}`}
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink">
-              <rect
-                id="r4"
-                width={iconInfo.totalSize - iconInfo.background.strokeSize}
-                height={iconInfo.totalSize - iconInfo.background.strokeSize}
-                x={iconInfo.background.strokeSize / 2}
-                y={iconInfo.background.strokeSize / 2}
-                rx={iconInfo.background.radius}
-                fill={
-                  iconInfo.fillStyle.fillType === "Linear"
-                    ? "url(#r5)"
-                    : iconInfo.fillStyle.primaryColor
-                }
-                stroke={iconInfo.background.strokeColor}
-                strokeWidth={iconInfo.background.strokeSize}
-                strokeOpacity={`${iconInfo.background.strokeOpacity}%`}
-                paintOrder="stroke"></rect>
-              {iconInfo.background.radialGlare && (
-                <rect
-                  width={iconInfo.totalSize - iconInfo.background.strokeSize}
-                  height={iconInfo.totalSize - iconInfo.background.strokeSize}
-                  x={iconInfo.background.strokeSize / 2}
-                  y={iconInfo.background.strokeSize / 2}
-                  fill="url(#r6)"
-                  rx={iconInfo.background.radius}
-                  style={{ mixBlendMode: "overlay" }}></rect>
-              )}
-              {iconInfo.background.noiseTexture && (
-                <NoiseTexture opacity={iconInfo.background.noiseOpacity} />
-              )}
-              <clipPath id="clip">
-                <use xlinkHref="#r4"></use>
-              </clipPath>
-              <defs>
-                <linearGradient
-                  id="r5"
-                  gradientUnits="userSpaceOnUse"
-                  gradientTransform={`rotate(${iconInfo.fillStyle.angle})`}
-                  style={{
-                    transformOrigin: "center center",
-                  }}>
-                  <stop stopColor={iconInfo.fillStyle.primaryColor}>
-                    {iconInfo.animate && (
-                      <animate
-                        attributeName="stop-color"
-                        values={`${iconInfo.fillStyle.primaryColor};${iconInfo.fillStyle.secondaryColor};${iconInfo.fillStyle.primaryColor}`}
-                        dur="3s"
-                        repeatCount="indefinite"
-                      />
-                    )}
-                  </stop>
-                  <stop
-                    offset="1"
-                    stopColor={iconInfo.fillStyle.secondaryColor}>
-                    {iconInfo.animate && (
-                      <animate
-                        attributeName="stop-color"
-                        values={`${iconInfo.fillStyle.secondaryColor};${iconInfo.fillStyle.primaryColor};${iconInfo.fillStyle.secondaryColor}`}
-                        dur="3s"
-                        repeatCount="indefinite"
-                      />
-                    )}
-                  </stop>
-                </linearGradient>
-                <radialGradient
-                  id="r6"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientUnits="userSpaceOnUse"
-                  gradientTransform="translate(256) rotate(90) scale(512)">
-                  <stop stopColor="white"></stop>
-                  <stop offset="1" stopColor="white" stopOpacity="0"></stop>
-                </radialGradient>
-              </defs>
-              {iconInfo.type === "svg" ? (
-                <Icon
-                  className="text-white"
-                  name={toCamelCase(iconInfo.value)}
-                  width={iconInfo.icon.size}
-                  height={iconInfo.icon.size}
-                  color={iconInfo.icon.color}
-                  alignmentBaseline="middle"
-                  x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
-                  y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
-                />
-              ) : iconInfo.type === "local" ? (
-                parse(iconInfo.value)
-              ) : iconInfo.type === "text" &&
-                !iconInfo.value.endsWith(".gif") ? (
-                <text
-                  x="50%"
-                  y="50%"
-                  fontSize={iconInfo.icon.size}
-                  fontWeight={600}
-                  fill={iconInfo.icon.color}
-                  textAnchor="middle"
-                  dy="0.35em">
-                  {iconInfo.value}
-                </text>
-              ) : (
-                <image
-                  href={iconInfo.value}
-                  x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
-                  y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
-                  height={iconInfo.icon.size}
-                  width={iconInfo.icon.size}
-                />
-              )}
-            </svg>
+            <SvgIcon iconInfo={iconInfo} svgRef={ref} />
             <span
               className="text-center absolute top-[105%] left-[50%] text-xs px-2 py-1 text-[#ffffff66] bg-[#ffffff1a] rounded-[20px] min-w-[70px]"
               style={{ transform: "translate(-50%,-20%)" }}>
@@ -1082,13 +1009,6 @@ export default function SvgEditor() {
       </Modal>
       <Modal showModal={showExportModal} setShowModal={setShowExportModal}>
         <div className="p-4 bg-[#282b2c] text-center rounded-md text-white w-full md:w-[500px] shadow-lg">
-          {/* <Image
-            alt="export party"
-            src="/party.svg"
-            className="w-16 h-16 mx-auto mb-3"
-            width="20"
-            height="20"
-          /> */}
           <div className="flex items-center justify-between text-[#b9b9b9] text-sm">
             <span className="font-bold">Exports</span>
             <X
@@ -1142,6 +1062,25 @@ export default function SvgEditor() {
                 defaultValue={generateURL(iconInfo)}></textarea>
             </div>
           )}
+
+          <div className="mt-4 w-full">
+            <div className="flex items-center justify-between text-sm font-bold text-[#62abf0] mb-2">
+              <span>Svg Code</span>
+              <CopyIcon
+                className="hover:text-[#cfcfcf] cursor-pointer"
+                onClick={() => {
+                  copySvgToClipboard(ref.current);
+                  toast("Copied svg to clipboard", {
+                    style: { backgroundColor: "#3b3b3b", color: "white" },
+                  });
+                }}
+              />
+            </div>
+            <textarea
+              className="h-16 w-full text-sm text-white p-2 bg-[#3d3d3d] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
+              defaultValue={ref.current?.outerHTML}></textarea>
+          </div>
+
           <button
             onClick={handleExportPng}
             className="bg-[#3d43ff8e] text-white rounded-md text-sm px-3 py-2 w-full mt-6 hover:bg-[#3d43ffa6] transition-all duration-300">
@@ -1153,6 +1092,133 @@ export default function SvgEditor() {
     </div>
   );
 }
+
+export const SvgIcon = ({
+  iconInfo,
+  svgRef,
+}: {
+  iconInfo: IconInfo;
+  svgRef: React.RefObject<SVGSVGElement>;
+}) => {
+  return (
+    <svg
+      ref={svgRef}
+      id="iconce.com"
+      width={iconInfo.totalSize}
+      height={iconInfo.totalSize}
+      viewBox={`0 0 ${iconInfo.totalSize} ${iconInfo.totalSize}`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink">
+      <rect
+        id="r4"
+        width={iconInfo.totalSize - iconInfo.background.strokeSize}
+        height={iconInfo.totalSize - iconInfo.background.strokeSize}
+        x={iconInfo.background.strokeSize / 2}
+        y={iconInfo.background.strokeSize / 2}
+        rx={iconInfo.background.radius}
+        fill={
+          iconInfo.fillStyle.fillType === "Linear"
+            ? "url(#r5)"
+            : iconInfo.fillStyle.primaryColor
+        }
+        stroke={iconInfo.background.strokeColor}
+        strokeWidth={iconInfo.background.strokeSize}
+        strokeOpacity={`${iconInfo.background.strokeOpacity}%`}
+        paintOrder="stroke"></rect>
+      {iconInfo.background.radialGlare && (
+        <rect
+          width={iconInfo.totalSize - iconInfo.background.strokeSize}
+          height={iconInfo.totalSize - iconInfo.background.strokeSize}
+          x={iconInfo.background.strokeSize / 2}
+          y={iconInfo.background.strokeSize / 2}
+          fill="url(#r6)"
+          rx={iconInfo.background.radius}
+          style={{ mixBlendMode: "overlay" }}></rect>
+      )}
+      {iconInfo.background.noiseTexture && (
+        <NoiseTexture opacity={iconInfo.background.noiseOpacity} />
+      )}
+      <clipPath id="clip">
+        <use xlinkHref="#r4"></use>
+      </clipPath>
+      <defs>
+        <linearGradient
+          id="r5"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform={`rotate(${iconInfo.fillStyle.angle})`}
+          style={{
+            transformOrigin: "center center",
+          }}>
+          <stop stopColor={iconInfo.fillStyle.primaryColor}>
+            {iconInfo.animate && (
+              <animate
+                attributeName="stop-color"
+                values={`${iconInfo.fillStyle.primaryColor};${iconInfo.fillStyle.secondaryColor};${iconInfo.fillStyle.primaryColor}`}
+                dur="3s"
+                repeatCount="indefinite"
+              />
+            )}
+          </stop>
+          <stop offset="1" stopColor={iconInfo.fillStyle.secondaryColor}>
+            {iconInfo.animate && (
+              <animate
+                attributeName="stop-color"
+                values={`${iconInfo.fillStyle.secondaryColor};${iconInfo.fillStyle.primaryColor};${iconInfo.fillStyle.secondaryColor}`}
+                dur="3s"
+                repeatCount="indefinite"
+              />
+            )}
+          </stop>
+        </linearGradient>
+        <radialGradient
+          id="r6"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(256) rotate(90) scale(512)">
+          <stop stopColor="white"></stop>
+          <stop offset="1" stopColor="white" stopOpacity="0"></stop>
+        </radialGradient>
+      </defs>
+      {iconInfo.type === "svg" ? (
+        <Icon
+          className="text-white"
+          name={toCamelCase(iconInfo.value)}
+          width={iconInfo.icon.size}
+          height={iconInfo.icon.size}
+          color={iconInfo.icon.color}
+          alignmentBaseline="middle"
+          x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+          y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+        />
+      ) : iconInfo.type === "local" ? (
+        parse(iconInfo.value)
+      ) : iconInfo.type === "text" && !iconInfo.value.endsWith(".gif") ? (
+        <text
+          x="50%"
+          y="50%"
+          fontSize={iconInfo.icon.size}
+          fontWeight={600}
+          fill={iconInfo.icon.color}
+          fontFamily={iconInfo.icon.family}
+          textAnchor="middle"
+          dy="0.35em">
+          {iconInfo.value}
+        </text>
+      ) : (
+        <image
+          href={iconInfo.value}
+          x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+          y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+          height={iconInfo.icon.size}
+          width={iconInfo.icon.size}
+        />
+      )}
+    </svg>
+  );
+};
 
 export const PanelWrapper = ({
   children,

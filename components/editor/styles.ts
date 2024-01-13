@@ -21,6 +21,7 @@ export type FillType = "Solid" | "Linear";
 export interface Icon {
   size: number;
   color: string;
+  family: string;
 }
 
 export interface Background {

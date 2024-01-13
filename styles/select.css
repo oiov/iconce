@@ -1,6 +1,6 @@
 .SelectTrigger {
   display: flex;
-  width: 100px;
+  min-width: 100px;
   height: 30px;
   align-items: center;
   justify-content: space-between;
@@ -31,7 +31,7 @@
   overflow: hidden;
   background: rgb(31, 31, 31);
   border-radius: 6px;
-  width: 100px;
+  min-width: 100px;
   font-size: 12px;
   padding: 5px;
 }
