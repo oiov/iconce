@@ -54,7 +54,7 @@ export default function HomePage({
         reverseOrder={false}
         toastOptions={{ duration: 2000 }}
       />
-      <SvgEditor />
+      <SvgEditor user={user} />
 
       {/* <form className="max-w-xl w-full mb-10">
         {user ? (

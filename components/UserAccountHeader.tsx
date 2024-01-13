@@ -1,6 +1,4 @@
 "use client";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -17,7 +15,8 @@ import { UserInfo } from "@/types/user";
 import dayjs from "dayjs";
 import { useCallback } from "react";
 
-interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface UserAccountNavProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<
     UserInfo,
     "username" | "avatar" | "email" | "role" | "membershipExpire"
@@ -33,7 +32,6 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
     <>
       {user && user.username ? (
         <div className="flex items-center">
-          <div className="mr-2">{user.role > 0 ? <CrownIcon /> : <></>}</div>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <UserAvatar
@@ -46,17 +44,24 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
                 className="h-8 w-8"
               />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              className="bg-[#2e3031] border border-[#ffffff0d] text-sm text-white"
+              align="end">
               <div className="flex items-center justify-start gap-2 p-2">
                 <div className="flex flex-col space-y-1 leading-none">
                   <div className="">
                     <div className="font-medium">{user.username}</div>
-                    <div className="mr-2 mt-2 flex">
+                    {user.email && (
+                      <p className="w-[200px] truncate mt-2 text-sm text-gray-400">
+                        {user.email}
+                      </p>
+                    )}
+                    <div className="mr-2 mt-2 flex items-center gap-2">
                       {user.role > 0 ? (
                         <>
-                          <CrownIcon />{" "}
-                          <span className="text-sm text-gray-500">
-                            ({getMembershipExpire()})
+                          <CrownIcon />
+                          <span className="text-sm text-gray-300">
+                            on {getMembershipExpire()}
                           </span>
                         </>
                       ) : (
@@ -64,30 +69,28 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
                       )}
                     </div>
                   </div>
-                  {user.email && (
-                    <p className="w-[200px] truncate text-sm text-muted-foreground">
-                      {user.email}
-                    </p>
-                  )}
                 </div>
               </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
+              <DropdownMenuSeparator className="bg-gray-500/50" />
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                asChild>
                 <Link href="/">Home</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                asChild>
                 <Link href="/billing">Billing</Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-gray-500/50" />
               <DropdownMenuItem
-                className="cursor-pointer"
+                className="DropdownMenuItem cursor-pointer"
                 onSelect={(event) => {
                   event.preventDefault();
                   signOut({
                     callbackUrl: `${window.location.origin}/login`,
                   });
-                }}
-              >
+                }}>
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -96,11 +99,7 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
       ) : (
         <Link
           href="/login"
-          className={cn(
-            buttonVariants({ variant: "secondary", size: "sm" }),
-            "px-4"
-          )}
-        >
+          className="px-4 text-sm bg-white/80  backdrop-blur-xl text-black py-[5px] font-semibold hover:bg-white rounded">
           Login
         </Link>
       )}

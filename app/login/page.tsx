@@ -15,18 +15,18 @@ export default async function LoginPage() {
   const user = (await getCurrentUser()) as UserInfo;
 
   return (
-    <div className="container flex w-screen flex-col items-center justify-center">
+    <div className="container h-screen bg-[#1f2023] flex w-screen flex-col items-center justify-center">
       <div className="mx-auto flex flex-1 w-full flex-col justify-center space-y-6 sm:w-[350px] px-4">
         <div className="flex flex-col space-y-2 text-center">
           <Image
             alt="logo"
-            src="/logo.svg"
+            src="/ce.svg"
             className="sm:w-12 sm:h-12 w-6 h-6 mx-auto"
             width={32}
             height={32}
           />
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome back
+          <h1 className="text-2xl text-white font-semibold tracking-tight">
+            ICONCE
           </h1>
           <p className="text-sm text-muted-foreground">
             Please select your login method.
@@ -37,8 +37,7 @@ export default async function LoginPage() {
           By clicking continue, you agree to our{" "}
           <Link
             href="/privacy"
-            className="hover:text-brand underline underline-offset-4"
-          >
+            className="hover:text-brand underline underline-offset-4">
             Privacy Policy
           </Link>
           .

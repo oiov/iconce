@@ -2,6 +2,7 @@
 
 import { Icon } from "@/components/Icons";
 import MainHeader from "@/components/MainHeader";
+import UserAccountHeader from "@/components/UserAccountHeader";
 import ColorPicker from "@/components/editor/color-picker";
 import EmojiPicker from "@/components/editor/emoji-picker";
 import NoiseTexture from "@/components/editor/noise-texture";
@@ -11,7 +12,7 @@ import {
   IconInfo,
 } from "@/components/editor/styles";
 import DiscordIcon from "@/components/icons/Discord";
-import Github from "@/components/icons/GitHub";
+import BetaIcon from "@/components/icons/betaIcon";
 import CopyIcon from "@/components/icons/copy";
 import ExportIcon from "@/components/icons/export";
 import ImageIcon from "@/components/icons/image";
@@ -38,6 +39,7 @@ import {
   generateURL,
   toCamelCase,
 } from "@/lib/utils";
+import { UserInfo } from "@/types/user";
 
 import * as Select from "@radix-ui/react-select";
 import * as Slider from "@radix-ui/react-slider";
@@ -61,7 +63,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function SvgEditor() {
+export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const sp = useSearchParams();
   const ref = useRef<SVGSVGElement>(null);
   const [openExportMenu, setOpenExportMenu] = useState(false);
@@ -176,6 +178,10 @@ export default function SvgEditor() {
   };
 
   const handleExportPng = async () => {
+    if (!user) {
+      toast("Please login");
+      return;
+    }
     if (ref.current) {
       isExportSVG && downloadSvg(ref.current, iconInfo.filename);
       isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
@@ -861,17 +867,6 @@ export default function SvgEditor() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
-                <Link
-                  href="https://github.com/yesmore"
-                  className="group flex items-center justify-between"
-                  aria-label="GitHub"
-                  target="_blank">
-                  <Github className="w-4 h-4" />
-                  <span className="pl-2 after:content-['_↗']">Github</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
                 <a
                   className="flex items-center justify-between"
                   href="mailto:support@iconce.com">
@@ -887,7 +882,7 @@ export default function SvgEditor() {
                 className="flex items-center justify-center text-slate-300 border outline-none px-3 py-1 rounded-md text-sm font-semibold bg-gradient-2 border-slate-600/70"
                 onMouseMove={() => setOpenExportMenu(true)}
                 onClick={() => setShowExportModal(true)}>
-                <ExportIcon /> <span className="pl-2">Export icon</span>
+                <ExportIcon /> <span className="pl-2">Export</span>
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -938,6 +933,15 @@ export default function SvgEditor() {
               </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
+          <UserAccountHeader
+            user={{
+              username: user?.username || "",
+              avatar: user?.avatar || "",
+              email: user?.email || "",
+              role: user?.role || 0,
+              membershipExpire: user?.membershipExpire,
+            }}
+          />
         </div>
       </header>
 
@@ -1030,6 +1034,7 @@ export default function SvgEditor() {
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="text-sm truncate">{iconInfo.filename}.png</div>
+              <BetaIcon />
               <div className="text-xs text-slate-400 ml-auto h-3">
                 {iconInfo.totalSize}x{iconInfo.totalSize}
               </div>

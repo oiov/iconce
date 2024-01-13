@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import * as React from "react";
 
 import { Icons } from "@/components/Icons";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { cn, isEmail } from "@/lib/utils";
 import { UserInfo } from "@/types/user";
 import { useRouter } from "next/navigation";
@@ -83,9 +83,9 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
   return (
     <div className={cn("grid gap-4", className)} {...props}>
       <Toaster />
-      <button
-        type="button"
-        className={cn(buttonVariants())}
+      <Button
+        variant="outline"
+        className="border-gray-700 hover:bg-white/70"
         onClick={() => login("google")}
         disabled={isGoogleLoading}>
         {isGoogleLoading ? (
@@ -94,10 +94,10 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
         Google
-      </button>
+      </Button>
       <Button
         variant="outline"
-        className="border-gray-400"
+        className="border-gray-700 hover:bg-white/70"
         onClick={() => login("github")}
         disabled={isGitHubLoading}>
         {isGitHubLoading ? (
