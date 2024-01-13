@@ -1,8 +1,8 @@
 import { SiteConfig } from "@/types/siteConfig";
 
 const baseSiteConfig = {
-  name: "ICONCE - Generate awesome SVG icons within 10 seconds",
-  description: "Generate awesome SVG icons within 10 seconds",
+  name: "ICONCE - Generate SVG icons in seconds",
+  description: "Generate SVG icons in seconds",
   url: "https://iconce.com",
   ogImage: "https://iconce.com/og.jpg",
   metadataBase: new URL("https://iconce.com"),

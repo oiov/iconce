@@ -1016,7 +1016,7 @@ export default function SvgEditor() {
               onClick={() => setShowExportModal(false)}
             />
           </div>
-          <div className="mt-4 space-y-2">
+          <div className="mt-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
               <span className="text-sm truncate">{iconInfo.filename}.svg</span>
               <span className="text-xs text-slate-400 ml-auto h-3">
