@@ -248,7 +248,7 @@ export default function SvgEditor() {
         </DropdownMenu>
         <IconButton>
           <input
-            className=" absolute opacity-0"
+            className="absolute opacity-0 w-10 h-10"
             type="file"
             accept=".svg"
             onChange={handleFileChange}
@@ -1067,7 +1067,7 @@ export default function SvgEditor() {
         <div className="p-4">{renderRightPanel()}</div>
       </Modal>
       <Modal showModal={showExportModal} setShowModal={setShowExportModal}>
-        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white min-w-[300px] max-w-[768px] shadow-lg">
+        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white min-w-[400px] max-w-[768px] shadow-lg">
           {/* <Image
             alt="export party"
             src="/party.svg"
