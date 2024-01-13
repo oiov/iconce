@@ -1,6 +1,14 @@
-export default function CopyIcon() {
+export default function CopyIcon({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
   return (
     <svg
+      className={className}
+      onClick={onClick}
       width={16}
       height={16}
       viewBox="0 0 16 16"

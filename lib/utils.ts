@@ -163,5 +163,5 @@ export const generateURL = (params: IconInfo) => {
     )
     .join("&");
 
-  return `${window.origin}/?${query}`;
+  return `https://iconce.com/?${query}`;
 };

@@ -1,6 +1,6 @@
 export interface IconInfo {
   filename: string;
-  type: "text" | "svg" | "gif"; // 图标值类型
+  type: "text" | "svg" | "gif" | "local"; // 图标值类型
   value: string; // 图标值
   totalSize: number; // 图标总大小
   fillStyle: FillStyle;
