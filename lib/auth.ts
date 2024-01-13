@@ -2,6 +2,7 @@ import { ONE_DAY } from "@/lib/constants";
 import { getUserSubscriptionStatus } from "@/lib/lemonsqueezy/subscriptionFromStorage";
 import prisma from "@/lib/prisma";
 import { UserInfo } from "@/types/user";
+// import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { Account, NextAuthOptions, Theme, TokenSet } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GithubProvider from "next-auth/providers/github";

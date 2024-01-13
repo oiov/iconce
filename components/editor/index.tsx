@@ -178,13 +178,14 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   };
 
   const handleExportPng = async () => {
-    if (!user) {
-      toast("Please login");
-      return;
-    }
     if (ref.current) {
       isExportSVG && downloadSvg(ref.current, iconInfo.filename);
-      isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+
+      if (isExportPNG && !user) {
+        toast("Sign in for export png");
+        return;
+      }
+      isExportSVG && downloadSvgAsPng(ref.current, iconInfo.filename);
     }
   };
 
@@ -426,10 +427,10 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             <div className="flex items-center justify-between text-white mt-3">
               <span
                 className={
-                  "text-xs " +
+                  "text-xs flex items-center gap-2 " +
                   `${isDisabled(iconInfo.fillStyle.fillType === "Solid")}`
                 }>
-                Animate (svg)
+                Animate (svg) <BetaIcon />
               </span>
               <Switch.Root
                 className="SwitchRoot"
