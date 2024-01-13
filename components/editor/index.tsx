@@ -502,11 +502,7 @@ export default function SvgEditor() {
         </AccordionItem>
       </Accordion>
 
-      <Accordion
-        className="w-full"
-        defaultValue="item-1"
-        type="single"
-        collapsible>
+      <Accordion className="w-full" type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-slate-300 bg-gradient-1 shadow-md hover:bg-[#4b4b4b] rounded-md font-bold text-xs px-3">
             Background
