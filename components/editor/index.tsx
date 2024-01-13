@@ -185,7 +185,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         toast("Sign in for export png");
         return;
       }
-      isExportSVG && downloadSvgAsPng(ref.current, iconInfo.filename);
+
+      isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
     }
   };
 
