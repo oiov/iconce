@@ -15,7 +15,7 @@ export default async function LoginPage() {
   const user = (await getCurrentUser()) as UserInfo;
 
   return (
-    <div className="container h-screen bg-[#1f2023] flex w-screen flex-col items-center justify-center">
+    <div className="h-screen bg-[#1f2023] flex w-screen flex-col items-center justify-center">
       <div className="mx-auto flex flex-1 w-full flex-col justify-center space-y-6 sm:w-[350px] px-4">
         <div className="flex flex-col space-y-2 text-center">
           <Image

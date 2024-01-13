@@ -11,7 +11,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:init": "npx prisma migrate dev --name init",
     "docker:up": "docker-compose up",
-    "docker:down": "docker-compose down"
+    "docker:down": "docker-compose down",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@emoji-mart/react": "^1.1.1",
