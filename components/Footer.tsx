@@ -6,14 +6,12 @@ export default function Footer() {
   return (
     <footer className="text-center h-16 sm:h-20 w-full sm:pt-2 pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center px-3 sm:mb-0 mb-3">
       <div className="">
-        Iconce - 快速构建基于{" "}
         <a
           className=" text-cyan-600"
           href="https://lemonsqueezy.com"
           target="_blank">
-          Lemonsquezy
-        </a>{" "}
-        的会员订阅系统
+          Iconce
+        </a>
       </div>
       <div className="flex gap-2 pb-4 sm:pb-0">
         <Link

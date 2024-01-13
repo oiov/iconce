@@ -11,6 +11,7 @@ import {
   IconInfo,
 } from "@/components/editor/styles";
 import DiscordIcon from "@/components/icons/Discord";
+import Github from "@/components/icons/GitHub";
 import CopyIcon from "@/components/icons/copy";
 import ExportIcon from "@/components/icons/export";
 import ImageIcon from "@/components/icons/image";
@@ -270,10 +271,11 @@ export default function SvgEditor() {
               .map((item) => IconItem(item))}
       </motion.div>
       <div className="flex items-center justify-end gap-3">
-        <span className="text-[#ffffffce] text-sm">
+        <span className="text-[#ffffffaf] text-xs">
           {iconPage} / {Math.ceil(suppotIcons.length / perPage)}
         </span>
         <IconButton
+          className="w-8 h-8"
           name="chevron-left"
           onClick={() => {
             if (iconPage > 1) {
@@ -283,6 +285,7 @@ export default function SvgEditor() {
           <ChevronLeft className="w-4 h-4 text-[#ffffff99]" />
         </IconButton>
         <IconButton
+          className="w-8 h-8"
           onClick={() => {
             if (iconPage < Math.ceil(suppotIcons.length / perPage)) {
               setIconPage(iconPage + 1);
@@ -777,7 +780,7 @@ export default function SvgEditor() {
           </div> */}
         </div>
         <div
-          className="absolute top-[50%] left-[50%] md:block hidden mx-auto text-gray-500 text-center text-sm font-bold"
+          className="w-72 absolute top-[50%] left-[50%] md:block hidden mx-auto text-gray-500 text-center text-sm font-bold"
           style={{
             transform: "translate(-50%,-50%)",
           }}>
@@ -817,6 +820,17 @@ export default function SvgEditor() {
                   <span className="pl-2 after:content-['_↗']">Discord</span>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
+                <Link
+                  href="https://github.com/yesmore"
+                  className="group flex items-center justify-between"
+                  aria-label="GitHub"
+                  target="_blank">
+                  <Github className="w-4 h-4" />
+                  <span className="pl-2 after:content-['_↗']">Github</span>
+                </Link>
+              </DropdownMenuItem>
+
               <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
                 <a
                   className="flex items-center justify-between"
@@ -1067,7 +1081,7 @@ export default function SvgEditor() {
         <div className="p-4">{renderRightPanel()}</div>
       </Modal>
       <Modal showModal={showExportModal} setShowModal={setShowExportModal}>
-        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white min-w-[400px] max-w-[768px] shadow-lg">
+        <div className="p-4 bg-[#282b2c] text-center rounded-md text-white w-full md:w-[500px] shadow-lg">
           {/* <Image
             alt="export party"
             src="/party.svg"
@@ -1084,7 +1098,7 @@ export default function SvgEditor() {
           </div>
           <div className="mt-4 space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-sm">{iconInfo.filename}.svg</span>
+              <span className="text-sm truncate">{iconInfo.filename}.svg</span>
               <span className="text-xs text-slate-400 ml-auto h-3">
                 {iconInfo.totalSize}x{iconInfo.totalSize}
               </span>
@@ -1099,7 +1113,7 @@ export default function SvgEditor() {
               </label>
             </div>
             <div className="flex items-center justify-between gap-2">
-              <div className="text-sm">{iconInfo.filename}.png</div>
+              <div className="text-sm truncate">{iconInfo.filename}.png</div>
               <div className="text-xs text-slate-400 ml-auto h-3">
                 {iconInfo.totalSize}x{iconInfo.totalSize}
               </div>

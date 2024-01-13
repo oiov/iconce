@@ -53,17 +53,24 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = "Button";
 
-
 export interface IconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const IconButton = ({ children, ...props }: IconButtonProps) => (
-  <button {...props} className="w-10 h-10 inline-flex items-center justify-center transition-all duration-300 text-[#ffffff99] bg-[#ffffff1a] outline-none rounded-md border border-[#ffffff0d] hover:bg-[#ececec36]">
+const IconButton = ({
+  className = "w-10 h-10",
+  children,
+  ...props
+}: IconButtonProps) => (
+  <button
+    {...props}
+    className={
+      className +
+      " inline-flex items-center justify-center transition-all duration-300 text-[#ffffff99] bg-[#ffffff1a] outline-none rounded-md border border-[#ffffff0d] hover:bg-[#ececec36]"
+    }>
     {children}
   </button>
-)
+);
 
-export { Button, buttonVariants, IconButton };
-
+export { Button, IconButton, buttonVariants };
