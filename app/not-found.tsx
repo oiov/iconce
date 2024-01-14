@@ -1,8 +1,15 @@
+import Link from "next/link";
+
 export default async function NotFound() {
   return (
     <>
-      <div className="z-10 mx-auto mt-24 flex w-full max-w-xl flex-col items-center justify-center px-5">
+      <div className="h-screen bg-[#1f2023] text-white flex w-screen flex-col items-center justify-center">
         Oops, Cat Not Found!
+        <Link href="/">
+          <button className="mt-4 rounded-md border px-4 py-2 text-sm hover:border-gray-800">
+            Back to home
+          </button>
+        </Link>
       </div>
     </>
   );

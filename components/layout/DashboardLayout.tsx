@@ -6,7 +6,7 @@ export const DashboardLayout = ({ children, user }: HomeLayoutProps) => {
     return notFound();
   }
   return (
-    <div className="max-full w-full mx-auto py-0 px-4 md:px-20">
+    <div className="h-screen bg-[#1f2023] w-full mx-auto">
       <main className="flex-1">{children}</main>
     </div>
   );

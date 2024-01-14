@@ -1,9 +1,7 @@
 import { DashboardConfig } from "@/types/sideNav";
 
 export const dashboardConfig: DashboardConfig = {
-  mainNav: [
-
-  ],
+  mainNav: [],
   sidebarNav: [
     // {
     //   title: "History",
@@ -16,4 +14,4 @@ export const dashboardConfig: DashboardConfig = {
       icon: "billing",
     },
   ],
-}
+};

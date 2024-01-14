@@ -52,7 +52,7 @@ export default async function BillingPage() {
   }
 
   return (
-    <div className="container grid gap-12 md:grid-cols-[200px_1fr]">
+    <div className="container px-10 grid gap-12 md:grid-cols-[200px_1fr]">
       <aside className="hidden w-[200px] flex-col md:flex">
         <DashboardNav items={dashboardConfig.sidebarNav} />
       </aside>
