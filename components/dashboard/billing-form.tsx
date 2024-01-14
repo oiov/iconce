@@ -56,7 +56,7 @@ export function BillingForm({
   async function upgrade(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(!isLoading);
-    window.location.href = "/#subscription-card";
+    window.location.href = "/";
   }
   async function cancelSubscription() {
     console.log("cancel subscription", subscriptionPlan);

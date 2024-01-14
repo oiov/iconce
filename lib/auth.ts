@@ -37,10 +37,14 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: `${process.env.GOOGLE_ID}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
+      httpOptions: {
+        timeout: 40000,
+      },
     }),
     DiscordProvider({
       clientId: `${process.env.DISCORD_CLIENT_ID}`,
       clientSecret: `${process.env.DISCORD_CLIENT_SECRET}`,
+      // authorization: { params: { scope: ["identify", "email"].join(" ") } },
     }),
     // EmailProvider({
     //   server: process.env.EMAIL_SERVER,

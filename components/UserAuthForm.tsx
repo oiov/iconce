@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import * as React from "react";
 
 import { Icons } from "@/components/Icons";
-import DiscordIcon from "@/components/icons/Discord";
 import { Button } from "@/components/ui/button";
 import { cn, isEmail } from "@/lib/utils";
 import { UserInfo } from "@/types/user";
@@ -46,6 +45,7 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
     }
     signIn(platform, {
       callbackUrl: `${window.location.origin}`,
+      // redirect: false,
     });
   };
 
@@ -93,7 +93,7 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
         variant="outline"
         className="border-gray-700 hover:bg-white/70"
         onClick={() => login("google")}
-        disabled={true}>
+        disabled={isGoogleLoading}>
         {isGoogleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
@@ -101,7 +101,7 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
         )}{" "}
         Google
       </Button>
-      <Button
+      {/* <Button
         variant="outline"
         className="border-gray-700 hover:bg-white/70"
         onClick={() => login("discord")}
@@ -112,7 +112,7 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
           <DiscordIcon className="mr-2 h-4 w-4" />
         )}{" "}
         Discord
-      </Button>
+      </Button> */}
       <Button
         variant="outline"
         className="border-gray-700 hover:bg-white/70"

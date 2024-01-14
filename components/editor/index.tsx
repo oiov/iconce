@@ -882,7 +882,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             <DropdownMenuTrigger className="outline-none">
               <div
                 className="flex items-center justify-center text-slate-300 border outline-none px-3 py-1 rounded-md text-sm font-semibold bg-gradient-2 border-slate-600/70"
-                onMouseMove={() => setOpenExportMenu(true)}
                 onClick={() => setShowExportModal(true)}>
                 <ExportIcon /> <span className="pl-2">Export</span>
               </div>
