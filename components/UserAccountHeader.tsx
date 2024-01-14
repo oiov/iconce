@@ -79,6 +79,7 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="DropdownMenuItem cursor-pointer"
+                disabled
                 asChild>
                 <Link href="/billing">Billing</Link>
               </DropdownMenuItem>
