@@ -135,7 +135,11 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const isDisabled = (disable: boolean) => (disable ? "text-gray-400" : "");
 
   const handleSearchIcon = (key: string) => {
-    setseachNameResult(suppotIcons.filter((item) => item.includes(key)));
+    if (key !== "") {
+      setseachNameResult(suppotIcons.filter((item) => item.includes(key)));
+    } else {
+      setseachNameResult([]);
+    }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -206,7 +210,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const IconItem = (item: string) => {
     return (
       <div
-        className="flex items-center justify-center cursor-pointer max-h-[64px] p-6 rounded bg-[#ffffff0d] hover:bg-[#ececec36] transition-all duration-300"
+        className="flex items-center justify-center cursor-pointer shadow-inner max-h-[64px] p-6 rounded bg-[#6b6b6b0d] hover:bg-[#ececec36] transition-all duration-300"
         data-id={item}
         key={item}
         onClick={() => {
@@ -224,7 +228,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     <div className="">
       <div className="flex items-center gap-2 justify-between">
         <input
-          className="bg-[#3d3d3d] w-full md:w-[190px] h-10 text-white placeholder:text-gray-400 after:content-['*'] rounded-[6px] px-2 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
+          className="bg-[#3d3d3d96] text-sm w-full md:w-[190px] h-10 text-white placeholder:text-gray-400 after:content-['*'] rounded-[6px] px-2 border focus:border-gray-500 border-[#ffffff0a] outline-none transition-all duration-300"
           type="text"
           placeholder="Input text icon"
           defaultValue={iconInfo.type === "text" ? iconInfo.value : ""}
@@ -275,7 +279,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         <input
           onChange={(e) => handleSearchIcon(e.target.value)}
           type="text"
-          className="w-full h-10 text-sm text-white pl-10 pr-11 bg-[#3d3d3d] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
+          className="w-full h-10 text-sm text-white pl-10 pr-11 bg-[#3d3d3d96] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
           placeholder="Search Icons…"
         />
       </label>
@@ -289,7 +293,10 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         {seachNameResult.length > 0
           ? seachNameResult.map((item) => IconItem(item))
           : suppotIcons
-              .slice(startIndex, endIndex)
+              .slice(
+                (iconPage - 1) * perPage,
+                (iconPage - 1) * perPage + perPage
+              )
               .map((item) => IconItem(item))}
       </motion.div>
       <div className="flex items-center justify-end gap-3">
