@@ -14,6 +14,7 @@ export interface FillStyle {
   primaryColor: string;
   secondaryColor: string;
   angle: string;
+  clip: boolean;
 }
 
 export type FillType = "Solid" | "Linear";

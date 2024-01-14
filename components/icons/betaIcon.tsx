@@ -2,15 +2,15 @@ export default function BetaIcon({ className }: { className?: string }) {
   return (
     <svg
       id="iconce.com"
-      width="90"
+      width="50"
       height="20"
-      viewBox="0 0 90 20"
+      viewBox="0 0 50 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink">
       <rect
         id="r4"
-        width="90"
+        width="50"
         height="20"
         x="0"
         y="0"
@@ -67,7 +67,7 @@ export default function BetaIcon({ className }: { className?: string }) {
         fontFamily="sans-serif"
         textAnchor="middle"
         dy="0.35em">
-        Beta for Free
+        Beta
       </text>
     </svg>
   );

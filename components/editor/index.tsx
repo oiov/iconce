@@ -101,6 +101,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       primaryColor: sp.get("primaryColor") || "#00B4DB",
       secondaryColor: sp.get("secondaryColor") || "#003357",
       angle: sp.get("angle") || "45",
+      clip: Boolean(sp.get("clip") === "true"),
     },
     background: {
       radialGlare: Boolean(sp.get("radialGlare") === "true"),
@@ -448,6 +449,26 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   setIconInfo({
                     ...iconInfo,
                     animate: e,
+                  })
+                }>
+                <Switch.Thumb className="SwitchThumb" />
+              </Switch.Root>
+            </div>
+            <div className="flex items-center justify-between text-white mt-3">
+              <span className={"text-xs flex items-center gap-2"}>
+                Clip Background (svg) <BetaIcon />
+              </span>
+              <Switch.Root
+                className="SwitchRoot"
+                id="airplane-mode"
+                defaultChecked={iconInfo.fillStyle.clip}
+                onCheckedChange={(e) =>
+                  setIconInfo({
+                    ...iconInfo,
+                    fillStyle: {
+                      ...iconInfo.fillStyle,
+                      clip: e,
+                    },
                   })
                 }>
                 <Switch.Thumb className="SwitchThumb" />
@@ -1119,38 +1140,6 @@ export const SvgIcon = ({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink">
-      <rect
-        id="r4"
-        width={iconInfo.totalSize - iconInfo.background.strokeSize}
-        height={iconInfo.totalSize - iconInfo.background.strokeSize}
-        x={iconInfo.background.strokeSize / 2}
-        y={iconInfo.background.strokeSize / 2}
-        rx={iconInfo.background.radius}
-        fill={
-          iconInfo.fillStyle.fillType === "Linear"
-            ? "url(#r5)"
-            : iconInfo.fillStyle.primaryColor
-        }
-        stroke={iconInfo.background.strokeColor}
-        strokeWidth={iconInfo.background.strokeSize}
-        strokeOpacity={`${iconInfo.background.strokeOpacity}%`}
-        paintOrder="stroke"></rect>
-      {iconInfo.background.radialGlare && (
-        <rect
-          width={iconInfo.totalSize - iconInfo.background.strokeSize}
-          height={iconInfo.totalSize - iconInfo.background.strokeSize}
-          x={iconInfo.background.strokeSize / 2}
-          y={iconInfo.background.strokeSize / 2}
-          fill="url(#r6)"
-          rx={iconInfo.background.radius}
-          style={{ mixBlendMode: "overlay" }}></rect>
-      )}
-      {iconInfo.background.noiseTexture && (
-        <NoiseTexture opacity={iconInfo.background.noiseOpacity} />
-      )}
-      <clipPath id="clip">
-        <use xlinkHref="#r4"></use>
-      </clipPath>
       <defs>
         <linearGradient
           id="r5"
@@ -1199,8 +1188,64 @@ export const SvgIcon = ({
           <stop stopColor="white"></stop>
           <stop offset="1" stopColor="white" stopOpacity="0"></stop>
         </radialGradient>
+        {iconInfo.type === "svg" && iconInfo.fillStyle.clip && (
+          <mask id="mask">
+            <rect
+              id="r4"
+              width={iconInfo.totalSize}
+              height={iconInfo.totalSize}
+              fill="white"
+            />
+            <Icon
+              fill="black"
+              stroke="black"
+              className="text-white"
+              name={toCamelCase(iconInfo.value)}
+              width={iconInfo.icon.size}
+              height={iconInfo.icon.size}
+              color={iconInfo.icon.color}
+              alignmentBaseline="middle"
+              x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+              y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
+            />
+          </mask>
+        )}
       </defs>
-      {iconInfo.type === "svg" ? (
+      <rect
+        id="r4"
+        width={iconInfo.totalSize - iconInfo.background.strokeSize}
+        height={iconInfo.totalSize - iconInfo.background.strokeSize}
+        x={iconInfo.background.strokeSize / 2}
+        y={iconInfo.background.strokeSize / 2}
+        rx={iconInfo.background.radius}
+        fill={
+          iconInfo.fillStyle.fillType === "Linear"
+            ? "url(#r5)"
+            : iconInfo.fillStyle.primaryColor
+        }
+        stroke={iconInfo.background.strokeColor}
+        strokeWidth={iconInfo.background.strokeSize}
+        strokeOpacity={`${iconInfo.background.strokeOpacity}%`}
+        paintOrder="stroke"
+        mask={
+          iconInfo.type === "svg" && iconInfo.fillStyle.clip
+            ? "url(#mask)"
+            : undefined
+        }></rect>
+      {iconInfo.background.radialGlare && (
+        <rect
+          width={iconInfo.totalSize - iconInfo.background.strokeSize}
+          height={iconInfo.totalSize - iconInfo.background.strokeSize}
+          x={iconInfo.background.strokeSize / 2}
+          y={iconInfo.background.strokeSize / 2}
+          fill="url(#r6)"
+          rx={iconInfo.background.radius}
+          style={{ mixBlendMode: "overlay" }}></rect>
+      )}
+      {iconInfo.background.noiseTexture && (
+        <NoiseTexture opacity={iconInfo.background.noiseOpacity} />
+      )}
+      {iconInfo.type === "svg" && (
         <Icon
           className="text-white"
           name={toCamelCase(iconInfo.value)}
@@ -1211,9 +1256,9 @@ export const SvgIcon = ({
           x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
           y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
         />
-      ) : iconInfo.type === "local" ? (
-        parse(iconInfo.value)
-      ) : iconInfo.type === "text" && !iconInfo.value.endsWith(".gif") ? (
+      )}
+      {iconInfo.type === "local" && parse(iconInfo.value)}
+      {iconInfo.type === "text" && (
         <text
           x="50%"
           y="50%"
@@ -1225,7 +1270,8 @@ export const SvgIcon = ({
           dy="0.35em">
           {iconInfo.value}
         </text>
-      ) : (
+      )}
+      {iconInfo.type === "gif" && (
         <image
           href={iconInfo.value}
           x={(iconInfo.totalSize - iconInfo.icon.size) / 2}
