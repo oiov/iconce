@@ -1152,6 +1152,15 @@ export const SvgIcon = ({
           style={{
             transformOrigin: "center center",
           }}>
+          {iconInfo.animate && (
+            <animateTransform
+              attributeName="gradientTransform"
+              type="rotate"
+              values="0;360"
+              dur="5s"
+              repeatCount="indefinite"
+            />
+          )}
           <stop stopColor={iconInfo.fillStyle.primaryColor}>
             {iconInfo.animate && (
               <animate
