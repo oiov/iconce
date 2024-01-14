@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import * as React from "react";
 
 import { Icons } from "@/components/Icons";
+import Google from "@/components/icons/google";
 import { Button } from "@/components/ui/button";
 import { cn, isEmail } from "@/lib/utils";
 import { UserInfo } from "@/types/user";
@@ -97,7 +98,7 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
         {isGoogleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Google className="mr-2 h-4 w-4" />
         )}{" "}
         Google
       </Button>
