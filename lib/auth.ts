@@ -44,6 +44,9 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: `${process.env.DISCORD_CLIENT_ID}`,
       clientSecret: `${process.env.DISCORD_CLIENT_SECRET}`,
+      httpOptions: {
+        timeout: 40000,
+      },
       // authorization: { params: { scope: ["identify", "email"].join(" ") } },
     }),
     // EmailProvider({
