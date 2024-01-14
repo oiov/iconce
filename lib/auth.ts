@@ -5,6 +5,7 @@ import { UserInfo } from "@/types/user";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { Account, NextAuthOptions, Theme, TokenSet } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import redis from "./redis";
@@ -36,6 +37,10 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: `${process.env.GOOGLE_ID}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
+    }),
+    DiscordProvider({
+      clientId: `${process.env.DISCORD_CLIENT_ID}`,
+      clientSecret: `${process.env.DISCORD_CLIENT_SECRET}`,
     }),
     // EmailProvider({
     //   server: process.env.EMAIL_SERVER,

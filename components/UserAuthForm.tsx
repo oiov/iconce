@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import * as React from "react";
 
 import { Icons } from "@/components/Icons";
+import DiscordIcon from "@/components/icons/Discord";
 import { Button } from "@/components/ui/button";
 import { cn, isEmail } from "@/lib/utils";
 import { UserInfo } from "@/types/user";
@@ -17,6 +18,8 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
+  const [isDiscordLoading, setIsDiscordLoading] =
+    React.useState<boolean>(false);
   const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -33,6 +36,9 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
     }
     if (platform === "google") {
       setIsGoogleLoading(true);
+    }
+    if (platform === "discord") {
+      setIsDiscordLoading(true);
     }
     if (platform === "email") {
       await handleSubmit();
@@ -87,13 +93,25 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
         variant="outline"
         className="border-gray-700 hover:bg-white/70"
         onClick={() => login("google")}
-        disabled={isGoogleLoading}>
+        disabled={true}>
         {isGoogleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
         Google
+      </Button>
+      <Button
+        variant="outline"
+        className="border-gray-700 hover:bg-white/70"
+        onClick={() => login("discord")}
+        disabled={isDiscordLoading}>
+        {isDiscordLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <DiscordIcon className="mr-2 h-4 w-4" />
+        )}{" "}
+        Discord
       </Button>
       <Button
         variant="outline"
