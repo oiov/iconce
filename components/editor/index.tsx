@@ -243,7 +243,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         />
 
         <DropdownMenu open={openEmojiPicker} onOpenChange={setEmojiPicker}>
-          <DropdownMenuTrigger className="hidden md:block">
+          <DropdownMenuTrigger className="hidden md:block outline-none">
             <div className="w-10 h-10 inline-flex items-center justify-center transition-all duration-300 bg-[#ffffff1a] outline-none rounded-md border border-[#ffffff0d] hover:bg-[#ececec36]">
               😎
             </div>
@@ -1214,16 +1214,18 @@ export const SvgIcon = ({
             />
           </mask>
         )}
-        {iconInfo.background.noiseTexture && <mask id="clipmask">
-          <rect 
-            width={iconInfo.totalSize} 
-            height={iconInfo.totalSize} 
-            x={iconInfo.background.strokeSize / 2} 
-            y={iconInfo.background.strokeSize / 2} 
-            fill="white" 
-            rx={iconInfo.background.radius}  // 设置圆角
-          />
-        </mask>}
+        {iconInfo.background.noiseTexture && (
+          <mask id="clipmask">
+            <rect
+              width={iconInfo.totalSize}
+              height={iconInfo.totalSize}
+              x={iconInfo.background.strokeSize / 2}
+              y={iconInfo.background.strokeSize / 2}
+              fill="white"
+              rx={iconInfo.background.radius} // 设置圆角
+            />
+          </mask>
+        )}
       </defs>
       <rect
         id="r4"
@@ -1257,7 +1259,10 @@ export const SvgIcon = ({
           style={{ mixBlendMode: "overlay" }}></rect>
       )}
       {iconInfo.background.noiseTexture && (
-        <NoiseTexture opacity={iconInfo.background.noiseOpacity} size={iconInfo.totalSize}/>
+        <NoiseTexture
+          opacity={iconInfo.background.noiseOpacity}
+          size={iconInfo.totalSize}
+        />
       )}
       {iconInfo.type === "svg" && (
         <Icon

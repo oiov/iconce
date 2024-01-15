@@ -1,3 +1,4 @@
+import data from "@/assets/icons/emoji-data.json";
 import Picker from "@emoji-mart/react";
 
 export default function EmojiPicker({
@@ -554,6 +555,7 @@ export default function EmojiPicker({
     <Picker
       theme="dark"
       custom={custom}
+      data={data}
       // data={async () => {
       //   const response = await fetch(
       //     "https://img.aoau.top/iconce/data.json" // "https://cdn.jsdelivr.net/npm/@emoji-mart/data"
