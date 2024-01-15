@@ -106,18 +106,6 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
       <Button
         variant="outline"
         className="border-gray-700 hover:bg-white/70"
-        onClick={() => login("discord")}
-        disabled={isDiscordLoading}>
-        {isDiscordLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <DiscordIcon className="mr-2 h-4 w-4" />
-        )}{" "}
-        Discord
-      </Button>
-      <Button
-        variant="outline"
-        className="border-gray-700 hover:bg-white/70"
         onClick={() => login("github")}
         disabled={isGitHubLoading}>
         {isGitHubLoading ? (
@@ -126,6 +114,18 @@ export function UserAuthForm({ className, user, ...props }: UserAuthFormProps) {
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
         Github
+      </Button>
+      <Button
+        variant="outline"
+        className="border-gray-700 hover:bg-white/70"
+        onClick={() => login("discord")}
+        disabled={isDiscordLoading}>
+        {isDiscordLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <DiscordIcon className="mr-2 h-4 w-4" />
+        )}{" "}
+        Discord
       </Button>
 
       {/* <div className="my-3 flex items-center justify-center">

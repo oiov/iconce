@@ -33,7 +33,7 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
       {user && user.username ? (
         <div className="flex items-center">
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="outline-none">
               <UserAvatar
                 user={{
                   username: user.username,
