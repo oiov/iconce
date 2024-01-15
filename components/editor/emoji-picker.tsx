@@ -554,12 +554,12 @@ export default function EmojiPicker({
     <Picker
       theme="dark"
       custom={custom}
-      data={async () => {
-        const response = await fetch(
-          "https://img.aoau.top/iconce/data.json" // "https://cdn.jsdelivr.net/npm/@emoji-mart/data"
-        );
-        return response.json();
-      }}
+      // data={async () => {
+      //   const response = await fetch(
+      //     "https://img.aoau.top/iconce/data.json" // "https://cdn.jsdelivr.net/npm/@emoji-mart/data"
+      //   );
+      //   return response.json();
+      // }}
       onEmojiSelect={(e: any) => {
         onEmojiSelect(e.native, e.src);
       }}
