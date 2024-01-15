@@ -6,7 +6,12 @@ const nextConfig = {
   reactStrictMode: process.env.NODE_ENV === "development",
   swcMinify: true,
   images: {
-    domains: ["avatars.githubusercontent.com", "iconce.com", "img.aoau.top"],
+    domains: [
+      "avatars.githubusercontent.com",
+      "iconce.com",
+      "img.aoau.top",
+      "fonts.gstatic.com",
+    ],
   },
   async redirects() {
     return [
