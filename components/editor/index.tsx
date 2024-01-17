@@ -106,7 +106,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     background: {
       radialGlare: Boolean(sp.get("radialGlare") === "true"),
       noiseTexture: Boolean(sp.get("noiseTexture") === "true"),
-      noiseOpacity: Number(sp.get("noiseOpacity") || "25"),
+      noiseOpacity: Number(sp.get("noiseOpacity") || "50"),
       radius: sp.get("radius") || "64",
       strokeSize: Number(sp.get("strokeSize") || "0"),
       strokeColor: sp.get("strokeColor") || "#FFFFFF",
@@ -243,7 +243,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         />
 
         <DropdownMenu open={openEmojiPicker} onOpenChange={setEmojiPicker}>
-          <DropdownMenuTrigger className="hidden md:block outline-none">
+          <DropdownMenuTrigger className="outline-none hidden md:block">
             <div className="w-10 h-10 inline-flex items-center justify-center transition-all duration-300 bg-[#ffffff1a] outline-none rounded-md border border-[#ffffff0d] hover:bg-[#ececec36]">
               😎
             </div>
@@ -454,7 +454,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 <Switch.Thumb className="SwitchThumb" />
               </Switch.Root>
             </div>
-            <div className="flex items-center justify-between text-white mt-3">
+            <div className="flex items-center justify-between text-white mt-4">
               <span
                 className={
                   "text-xs flex items-center gap-2 " +
@@ -479,11 +479,11 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               </Switch.Root>
             </div>
             <div className="flex flex-col items-start justify-between text-white mt-5">
-              <span className={"text-xs "}>Fill Presets</span>
-              <div className="py-2 grid grid-cols-8 gap-4 items-start justify-start pt-3">
+              <span className="text-xs">Fill Presets</span>
+              <div className="py-2 grid-cols-8 gap-4 pt-3 md:grid hidden">
                 {BackgroundFillPresets.map((item, index) => (
                   <svg
-                    className="rounded cursor-pointer w-5 h-5 flex-shrink-0 overflow-hidden"
+                    className="rounded cursor-pointer w-5 h-5 border border-slate-100 md:border-none"
                     key={index}
                     onClick={() =>
                       setIconInfo({
@@ -504,9 +504,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                       y="0"
                       rx="0"
                       fill={`url(#rt${index})`}
-                      stroke="#FFFFFF"
-                      strokeWidth="0"
-                      strokeOpacity="100%"
                       paintOrder="stroke"></rect>
                     <clipPath id="clip">
                       <use xlinkHref={`ra${index}`}></use>
@@ -520,19 +517,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                         <stop stopColor={item.primaryColor}></stop>
                         <stop offset="1" stopColor={item.secondaryColor}></stop>
                       </linearGradient>
-                      <radialGradient
-                        id="r9"
-                        cx="0"
-                        cy="0"
-                        r="1"
-                        gradientUnits="userSpaceOnUse"
-                        gradientTransform="translate(10) rotate(90) scale(20)">
-                        <stop stopColor="white"></stop>
-                        <stop
-                          offset="1"
-                          stopColor="white"
-                          stopOpacity="0"></stop>
-                      </radialGradient>
                     </defs>
                   </svg>
                 ))}
@@ -987,7 +971,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         <div className="block md:hidden absolute bottom-0 w-full">
           <div className="flex w-full items-center justify-around">
             <button
-              className="rounded-tl-lg w-full transition-all duration-300 bg-[#232526] p-4 shadow-md text-slate-300 hover:bg-[#3b3d3f]"
+              className="rounded-tl-lg outline-none w-full transition-all duration-300 bg-[#232526] p-4 shadow-md text-slate-300 hover:bg-[#3b3d3f]"
               onClick={() => {
                 setShowBottomRightPanel(false);
                 setShowBottomLeftPanel(!showBottomLeftPanel);
@@ -995,7 +979,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               <LayoutDashboard className="mx-auto" />
             </button>
             <button
-              className="rounded-tr-lg w-full transition-all duration-300 bg-[#232526] p-4 shadow-md text-slate-300 hover:bg-[#3b3d3f]"
+              className="rounded-tr-lg outline-none w-full transition-all duration-300 bg-[#232526] p-4 shadow-md text-slate-300 hover:bg-[#3b3d3f]"
               onClick={() => {
                 setShowBottomLeftPanel(false);
                 setShowBottomRightPanel(!showBottomRightPanel);
