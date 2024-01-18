@@ -645,7 +645,9 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                     <ChevronDown className="w-4 h-4 text-muted-foreground" />
                   </Select.Icon>
                 </Select.Trigger>
-                <Select.Content className="SelectContent" position="popper">
+                <Select.Content
+                  className="SelectContent z-10"
+                  position="popper">
                   <Select.Item className="SelectItem" value="serif">
                     Serif
                   </Select.Item>
