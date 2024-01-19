@@ -31,12 +31,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/modal";
+import { axios } from "@/lib/axios";
 import {
   copySvgAsPngToClipboard,
   copySvgToClipboard,
   downloadSvg,
   downloadSvgAsPng,
+  fetcher,
   generateURL,
+  nFormatter,
   toCamelCase,
 } from "@/lib/utils";
 import { UserInfo } from "@/types/user";
@@ -62,6 +65,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import useSWR from "swr";
 
 export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const sp = useSearchParams();
@@ -127,6 +131,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const startIndex = (iconPage - 1) * perPage;
   const endIndex = startIndex + perPage;
 
+  const { data, isLoading, error } = useSWR<any>("/api/info", fetcher);
+
   useEffect(() => {
     if (Object.keys(dynamicIconImports).length > 0) {
       setSuppotIcons(Object.keys(dynamicIconImports));
@@ -134,6 +140,10 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   }, [dynamicIconImports]);
 
   const isDisabled = (disable: boolean) => (disable ? "text-gray-400" : "");
+
+  const updateGenerateInfo = async (type: string) => {
+    await axios.post("/api/info", { type });
+  };
 
   const handleSearchIcon = (key: string) => {
     if (key !== "") {
@@ -192,6 +202,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       }
 
       isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+
+      await updateGenerateInfo("0");
     }
   };
 
@@ -200,6 +212,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       if (iconInfo.type === "local") return;
       const link = generateURL(iconInfo);
       await navigator.clipboard.writeText(link);
+      await updateGenerateInfo("1");
       toast("Copied link to clipboard", {
         style: { backgroundColor: "#3b3b3b", color: "white" },
       });
@@ -329,6 +342,20 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
 
   const renderRightPanel = () => (
     <div className="flex flex-col gap-3">
+      {
+        <div className="text-slate-300 transition-all duration-300 py-3 bg-gradient-3 shadow-md hover:bg-[#4b4b4b] rounded-md text-xs px-3">
+          Exported{" "}
+          <strong className="text-white">
+            {!isLoading ? nFormatter(data.data.generate) : 0}
+          </strong>{" "}
+          icons & Shared{" "}
+          <strong className="text-white">
+            {!isLoading ? nFormatter(data.data.share) : 0}
+          </strong>{" "}
+          times
+        </div>
+      }
+
       <Accordion
         className="w-full"
         type="single"

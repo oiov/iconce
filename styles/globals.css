@@ -109,6 +109,10 @@
   background: linear-gradient(90deg, #3d43ff8e, #c3b3ff8e);
 }
 
+.bg-gradient-3 {
+  background: linear-gradient(90deg, #5a5fff10, #c3b3ff13);
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
