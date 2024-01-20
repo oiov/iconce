@@ -950,6 +950,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   toast("Copied image to clipboard", {
                     style: { backgroundColor: "#3b3b3b", color: "white" },
                   });
+                  updateGenerateInfo("1");
                 }}>
                 <CopyIcon />
                 <span className="pl-2">Copy Image</span>
@@ -961,6 +962,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   toast("Copied svg to clipboard", {
                     style: { backgroundColor: "#3b3b3b", color: "white" },
                   });
+                  updateGenerateInfo("1");
                 }}>
                 <CopyIcon />
                 <span className="pl-2">Copy Svg</span>
@@ -1120,6 +1122,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   toast("Copied svg to clipboard", {
                     style: { backgroundColor: "#3b3b3b", color: "white" },
                   });
+                  updateGenerateInfo("1");
                 }}
               />
             </div>
