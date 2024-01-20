@@ -345,12 +345,12 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       {
         <div className="text-slate-300 transition-all duration-300 py-3 bg-gradient-3 shadow-md hover:bg-[#4b4b4b] rounded-md text-xs px-3">
           Exported{" "}
-          <strong className="text-white">
-            {!isLoading ? nFormatter(data.data.generate) : 0}
+          <strong className="text-white animation-accordion-down">
+            {!isLoading ? nFormatter(data.data.generate) : "--"}
           </strong>{" "}
           icons & Shared{" "}
           <strong className="text-white">
-            {!isLoading ? nFormatter(data.data.share) : 0}
+            {!isLoading ? nFormatter(data.data.share) : "--"}
           </strong>{" "}
           times
         </div>
