@@ -24,6 +24,10 @@ const GoogleAnalytics = () => {
           `,
         }}
       />
+      <Script
+        async
+        crossOrigin="anonymous"
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3965073406028614`}></Script>
     </>
   );
 };

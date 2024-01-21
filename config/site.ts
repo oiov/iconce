@@ -10,6 +10,7 @@ const baseSiteConfig = {
     "SVG",
     "icon",
     "generator",
+    "editor",
     "gif",
     "Platform",
     "SVG generator",
@@ -17,6 +18,8 @@ const baseSiteConfig = {
     "SVG synthesizer",
     "png",
     "svg to png",
+    "icon editor",
+    "svg editor",
   ],
   authors: [
     {
