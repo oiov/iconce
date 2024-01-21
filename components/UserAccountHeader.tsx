@@ -99,7 +99,7 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
         </div>
       ) : (
         <Link
-          href="/login"
+          href="https://iconce.com/login"
           className="px-4 text-sm bg-white/80  backdrop-blur-xl text-black py-[5px] font-semibold hover:bg-white rounded">
           Login
         </Link>
