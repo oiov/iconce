@@ -64,6 +64,7 @@ import dynamicIconImports from "lucide-react/dynamicIconImports";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import CountUp from "react-countup";
 import toast, { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 
@@ -131,7 +132,9 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const startIndex = (iconPage - 1) * perPage;
   const endIndex = startIndex + perPage;
 
-  const { data, isLoading, error } = useSWR<any>("/api/info", fetcher);
+  const { data, isLoading, error } = useSWR<any>("/api/info", fetcher, {
+    revalidateOnFocus: false,
+  });
 
   useEffect(() => {
     if (Object.keys(dynamicIconImports).length > 0) {
@@ -344,13 +347,31 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     <div className="flex flex-col gap-3">
       {
         <div className="text-slate-300 transition-all duration-300 py-3 bg-gradient-3 shadow-md hover:bg-[#4b4b4b] rounded-md text-xs px-3">
-          Exported{" "}
+          🎉 Exported{" "}
           <strong className="text-white animation-accordion-down">
-            {!isLoading ? nFormatter(data.data.generate) : "--"}
+            {!isLoading ? (
+              <CountUp
+                duration={3}
+                formattingFn={(v) => nFormatter(v)}
+                start={100}
+                end={data.data.generate}
+              />
+            ) : (
+              "--"
+            )}
           </strong>{" "}
           icons & Shared{" "}
           <strong className="text-white">
-            {!isLoading ? nFormatter(data.data.share) : "--"}
+            {!isLoading ? (
+              <CountUp
+                formattingFn={(v) => nFormatter(v)}
+                duration={3}
+                start={100}
+                end={data.data.share}
+              />
+            ) : (
+              "--"
+            )}
           </strong>{" "}
           times
         </div>

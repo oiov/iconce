@@ -5,19 +5,19 @@ dependencies:
     specifier: ^1.1.1
     version: 1.1.1(emoji-mart@5.5.2)(react@18.2.0)
   '@headlessui/react':
-    specifier: ^1.7.18
+    specifier: ^1.7.7
     version: 1.7.18(react-dom@18.2.0)(react@18.2.0)
   '@headlessui/tailwindcss':
-    specifier: ^0.1.3
+    specifier: ^0.1.2
     version: 0.1.3(tailwindcss@3.4.1)
   '@heroicons/react':
-    specifier: ^2.1.1
+    specifier: ^2.0.13
     version: 2.1.1(react@18.2.0)
   '@next-auth/prisma-adapter':
     specifier: ^1.0.7
     version: 1.0.7(@prisma/client@5.8.0)(next-auth@4.24.5)
   '@prisma/client':
-    specifier: ^5.8.0
+    specifier: ^5.2.0
     version: 5.8.0(prisma@5.8.0)
   '@radix-ui/react-accordion':
     specifier: ^1.1.2
@@ -26,13 +26,13 @@ dependencies:
     specifier: ^1.0.5
     version: 1.0.5(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-avatar':
-    specifier: ^1.0.4
+    specifier: ^1.0.3
     version: 1.0.4(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-collapsible':
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-dropdown-menu':
-    specifier: ^2.0.6
+    specifier: ^2.0.5
     version: 2.0.6(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-popover':
     specifier: ^1.0.7
@@ -50,31 +50,31 @@ dependencies:
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
   '@tailwindcss/forms':
-    specifier: ^0.5.7
+    specifier: ^0.5.6
     version: 0.5.7(tailwindcss@3.4.1)
   '@types/mdx':
-    specifier: ^2.0.10
+    specifier: ^2.0.6
     version: 2.0.10
   '@upstash/redis':
-    specifier: ^1.28.0
+    specifier: ^1.22.0
     version: 1.28.0
   '@vercel/analytics':
-    specifier: ^0.1.11
+    specifier: ^0.1.8
     version: 0.1.11(react@18.2.0)
   ai:
-    specifier: ^2.2.31
+    specifier: ^2.1.21
     version: 2.2.31(react@18.2.0)(solid-js@1.8.11)(svelte@4.2.8)(vue@3.4.13)
   axios:
-    specifier: ^1.6.5
+    specifier: ^1.4.0
     version: 1.6.5
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
   clsx:
-    specifier: ^2.1.0
+    specifier: ^2.0.0
     version: 2.1.0
   concurrently:
-    specifier: ^8.2.2
+    specifier: ^8.2.0
     version: 8.2.2
   contentlayer:
     specifier: ^0.3.4
@@ -89,10 +89,10 @@ dependencies:
     specifier: ^10.2.3
     version: 10.2.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
   framer-motion:
-    specifier: ^10.18.0
+    specifier: ^10.17.12
     version: 10.18.0(react-dom@18.2.0)(react@18.2.0)
   html-react-parser:
-    specifier: ^5.1.1
+    specifier: ^5.1.0
     version: 5.1.1(react@18.2.0)
   ioredis:
     specifier: ^5.3.2
@@ -107,7 +107,7 @@ dependencies:
     specifier: ^0.264.0
     version: 0.264.0(react@18.2.0)
   next:
-    specifier: ^13.5.6
+    specifier: ^13.4.10
     version: 13.5.6(@opentelemetry/api@1.7.0)(react-dom@18.2.0)(react@18.2.0)
   next-auth:
     specifier: ^4.24.5
@@ -128,13 +128,13 @@ dependencies:
     specifier: ^6.9.8
     version: 6.9.8
   openai:
-    specifier: ^4.24.7
+    specifier: ^4.4.0
     version: 4.24.7
   openai-edge:
-    specifier: ^1.2.2
+    specifier: ^1.2.0
     version: 1.2.2
   prisma:
-    specifier: ^5.8.0
+    specifier: ^5.4.2
     version: 5.8.0
   raw-body:
     specifier: ^2.5.2
@@ -145,11 +145,14 @@ dependencies:
   react-colorful:
     specifier: ^5.6.1
     version: 5.6.1(react-dom@18.2.0)(react@18.2.0)
+  react-countup:
+    specifier: ^6.5.0
+    version: 6.5.0(react@18.2.0)
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   react-hook-form:
-    specifier: ^7.49.3
+    specifier: ^7.42.0
     version: 7.49.3(react@18.2.0)
   react-hot-toast:
     specifier: ^2.4.1
@@ -161,7 +164,7 @@ dependencies:
     specifier: ^6.1.1
     version: 6.1.1
   rehype-pretty-code:
-    specifier: ^0.10.2
+    specifier: ^0.10.0
     version: 0.10.2(shiki@0.14.7)
   rehype-raw:
     specifier: ^6.1.1
@@ -170,7 +173,7 @@ dependencies:
     specifier: ^5.1.0
     version: 5.1.0
   rehype-stringify:
-    specifier: ^9.0.4
+    specifier: ^9.0.3
     version: 9.0.4
   remark-gfm:
     specifier: ^3.0.1
@@ -217,16 +220,16 @@ devDependencies:
     specifier: 18.0.6
     version: 18.0.6
   autoprefixer:
-    specifier: ^10.4.16
+    specifier: ^10.4.12
     version: 10.4.16(postcss@8.4.33)
   postcss:
-    specifier: ^8.4.33
+    specifier: ^8.4.18
     version: 8.4.33
   postcss-import:
     specifier: ^15.1.0
     version: 15.1.0(postcss@8.4.33)
   tailwindcss:
-    specifier: ^3.4.1
+    specifier: ^3.3.3
     version: 3.4.1
   typescript:
     specifier: 4.9.4
@@ -2836,6 +2839,10 @@ packages:
       vary: 1.1.2
     dev: false
 
+  /countup.js@2.8.0:
+    resolution: {integrity: sha512-f7xEhX0awl4NOElHulrl4XRfKoNH3rB+qfNSZZyjSZhaAoUk6elvhH+MNxMmlmuUJ2/QNTWPSA7U4mNtIAKljQ==}
+    dev: false
+
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -5203,6 +5210,15 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-countup@6.5.0(react@18.2.0):
+    resolution: {integrity: sha512-26JFHbUHsHxu8SetkJwWVIUEkaNnrj4P9msxNGC8tS4hGr1bngRzbwtJYOgXD2G/ItjaKJ3JfYKd85sw7qRVeA==}
+    peerDependencies:
+      react: '>= 16.3.0'
+    dependencies:
+      countup.js: 2.8.0
+      react: 18.2.0
     dev: false
 
   /react-dom@18.2.0(react@18.2.0):
