@@ -35,7 +35,12 @@ export default function ColorPicker({
           <Popover.Content className="z-[41]" align="end">
             <div className="custom-color-picker">
               <HexAlphaColorPicker color={color} onChange={onChooseColor} />
-              <HexColorInput color={color} onChange={onChooseColor} />
+              <HexColorInput
+                prefixed={true}
+                alpha={true}
+                color={color}
+                onChange={onChooseColor}
+              />
             </div>
           </Popover.Content>
         </Popover.Portal>
