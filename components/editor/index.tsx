@@ -351,7 +351,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           <strong className="text-white animation-accordion-down">
             {!isLoading ? (
               <CountUp
-                duration={3}
+                duration={1}
                 formattingFn={(v) => nFormatter(v)}
                 start={100}
                 end={data.data.generate}
@@ -365,7 +365,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             {!isLoading ? (
               <CountUp
                 formattingFn={(v) => nFormatter(v)}
-                duration={3}
+                duration={1}
                 start={100}
                 end={data.data.share}
               />
