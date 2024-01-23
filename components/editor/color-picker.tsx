@@ -3,7 +3,7 @@
 import "@/styles/color-picker.css";
 import * as Popover from "@radix-ui/react-popover";
 import { useState } from "react";
-import { HexColorInput, HexColorPicker } from "react-colorful";
+import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 
 export default function ColorPicker({
   defaultColor,
@@ -34,7 +34,7 @@ export default function ColorPicker({
         <Popover.Portal>
           <Popover.Content className="z-[41]" align="end">
             <div className="custom-color-picker">
-              <HexColorPicker color={color} onChange={onChooseColor} />
+              <HexAlphaColorPicker color={color} onChange={onChooseColor} />
               <HexColorInput color={color} onChange={onChooseColor} />
             </div>
           </Popover.Content>
