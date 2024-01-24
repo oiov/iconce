@@ -54,14 +54,12 @@ export function BillingForm({
     }
   }
   async function upgrade(event: React.SyntheticEvent) {
-    toast("Beta for Free");
-    return;
     event.preventDefault();
     setIsLoading(!isLoading);
     window.location.href = "/";
   }
   async function cancelSubscription() {
-    console.log("cancel subscription", subscriptionPlan);
+    // console.log("cancel subscription", subscriptionPlan);
     if (!subscriptionPlan) {
       toast.error("subscriptionId not found");
       return;
@@ -119,7 +117,7 @@ export function BillingForm({
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Upgrade to PRO
+                Upgrade to Premium
               </Button>
             )}
             {subscriptionPlan.isCanceled ? (

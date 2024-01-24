@@ -37,7 +37,7 @@ export default async function BillingPage() {
     subscriptionPlan = {
       role: subscription.role,
       isPro: subscription.role === MEMBERSHIP_ROLE_VALUE,
-      name: subscription.role === MEMBERSHIP_ROLE_VALUE ? "PRO" : "Free",
+      name: subscription.role === MEMBERSHIP_ROLE_VALUE ? "Premium" : "Free",
       description:
         subscription.role === MEMBERSHIP_ROLE_VALUE
           ? subscribeInfo["membership"].description

@@ -36,7 +36,8 @@ export const subscribeInfo: SubscribeInfo = {
     ],
     buttonText: "Upgrade Now",
     mainClassName: "gray-700",
-    buttonClassName: "bg-gradient-to-r from-pink-500 to-purple-500",
+    buttonClassName:
+      "bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-80",
   },
   boostPack: {
     title: "Boost Pack",
