@@ -41,7 +41,7 @@ export default function UserAccountHeader({ user }: UserAccountNavProps) {
                   role: user.role,
                   email: user.email,
                 }}
-                className="h-8 w-8"
+                className="h-8 w-8 border border-[#ffffff1f]"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent
