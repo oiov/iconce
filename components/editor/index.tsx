@@ -17,6 +17,7 @@ import CopyIcon from "@/components/icons/copy";
 import ExportIcon from "@/components/icons/export";
 import ImageIcon from "@/components/icons/image";
 import LinkIcon from "@/components/icons/link";
+import Subscribe from "@/components/subscribe/Subscribe";
 import {
   Accordion,
   AccordionContent,
@@ -80,6 +81,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const [showBottomRightPanel, setShowBottomRightPanel] =
     useState<boolean>(false);
   const [showExportModal, setShowExportModal] = useState(false);
+  const [showSubscribeCard, setShowSubscribeCard] = useState<boolean>(false);
 
   const [isExportSVG, setIsExportSVG] = useState(true);
   const [isExportPNG, setIsExportPNG] = useState(false);
@@ -200,14 +202,15 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     if (ref.current) {
       isExportSVG && downloadSvg(ref.current, iconInfo.filename);
 
-      if (isExportPNG && !user) {
-        toast("Sign in for export png");
-        return;
-      }
-
-      isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
-
       await updateGenerateInfo("0");
+
+      if (isExportPNG && user) {
+        if (user.role > 0) {
+          isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+        } else {
+          setShowSubscribeCard(true);
+        }
+      }
     }
   };
 
@@ -491,21 +494,26 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             <div className="flex items-center justify-between text-white mt-3">
               <span
                 className={
-                  "text-xs flex items-center gap-2 " +
+                  "text-xs flex items-center gap-2 cursor-pointer " +
                   `${isDisabled(iconInfo.fillStyle.fillType === "Solid")}`
-                }>
+                }
+                onClick={() => setShowSubscribeCard(true)}>
                 Animate (svg) <BetaIcon />
               </span>
               <Switch.Root
                 className="SwitchRoot"
                 id="airplane-mode"
                 defaultChecked={iconInfo.animate}
-                onCheckedChange={(e) =>
-                  setIconInfo({
-                    ...iconInfo,
-                    animate: e,
-                  })
-                }>
+                onCheckedChange={(e) => {
+                  if (user && user.role > 0) {
+                    setIconInfo({
+                      ...iconInfo,
+                      animate: e,
+                    });
+                  } else {
+                    setShowSubscribeCard(true);
+                  }
+                }}>
                 <Switch.Thumb className="SwitchThumb" />
               </Switch.Root>
             </div>
@@ -515,7 +523,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   "text-xs flex items-center gap-2 " +
                   `${isDisabled(iconInfo.type !== "svg")}`
                 }>
-                Clip Background (svg) <BetaIcon />
+                Clip Background (svg)
               </span>
               <Switch.Root
                 className="SwitchRoot"
@@ -982,18 +990,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               <DropdownMenuItem
                 className="DropdownMenuItem cursor-pointer"
                 onClick={() => {
-                  copySvgAsPngToClipboard(ref.current);
-                  toast("Copied image to clipboard", {
-                    style: { backgroundColor: "#3b3b3b", color: "white" },
-                  });
-                  updateGenerateInfo("1");
-                }}>
-                <CopyIcon />
-                <span className="pl-2">Copy Image</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="DropdownMenuItem cursor-pointer"
-                onClick={() => {
                   copySvgToClipboard(ref.current);
                   toast("Copied svg to clipboard", {
                     style: { backgroundColor: "#3b3b3b", color: "white" },
@@ -1002,6 +998,22 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 }}>
                 <CopyIcon />
                 <span className="pl-2">Copy Svg</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => {
+                  if (user && user.role > 0) {
+                    copySvgAsPngToClipboard(ref.current);
+                    toast("Copied image to clipboard", {
+                      style: { backgroundColor: "#3b3b3b", color: "white" },
+                    });
+                    updateGenerateInfo("1");
+                  } else {
+                    setShowSubscribeCard(true);
+                  }
+                }}>
+                <CopyIcon />
+                <span className="pl-2">Copy Image</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="DropdownMenuItem cursor-pointer"
@@ -1118,7 +1130,10 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="text-sm truncate">{iconInfo.filename}.png</div>
-              <BetaIcon />
+              <BetaIcon
+                className=" cursor-pointer"
+                onClick={() => setShowSubscribeCard(true)}
+              />
               <div className="text-xs text-slate-400 ml-auto h-3">
                 {iconInfo.totalSize}x{iconInfo.totalSize}
               </div>
@@ -1174,6 +1189,12 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           </button>
         </div>
       </Modal>
+      <Modal showModal={showSubscribeCard} setShowModal={setShowSubscribeCard}>
+        <div className="">
+          <Subscribe user={user} />
+        </div>
+      </Modal>
+
       <Toaster />
     </div>
   );

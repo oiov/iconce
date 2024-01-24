@@ -26,16 +26,16 @@ export const subscribeInfo: SubscribeInfo = {
   membership: {
     isPopular: true,
     title: "Premium",
-    description: "50x more credits than Free version",
-    amount: 4.99,
+    description: "",
+    amount: 1.99,
     expireType: "month",
     possess: [
-      "Up to 500 credits per day",
-      "Optional credits purchase",
+      "Unlimited use of all features",
+      "Export as PNG, SVG",
       "Early access to new features",
     ],
     buttonText: "Upgrade Now",
-    mainClassName: "purple-500",
+    mainClassName: "gray-700",
     buttonClassName: "bg-gradient-to-r from-pink-500 to-purple-500",
   },
   boostPack: {
@@ -108,35 +108,25 @@ export default function Subscribe({ user }: { user: UserInfo | null }) {
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="text-4xl font-bold mb-8 text-zinc-800">UPGRADE</h1>
-      </div>
-      <section className="w-full py-0 flex items-center justify-center">
-        <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-            <SubscribeCard
+    <section className="w-full py-0 flex items-center justify-center">
+      <div className="container px-4 md:px-6">
+        <div className="">
+          {/* <SubscribeCard
               info={subscribeInfo.free}
               clickButton={getStartFreeVersion}
-            />
-            <SubscribeCard
-              id="subscription-card"
-              info={subscribeInfo.membership}
-              clickButton={subscribe}
-            />
-            <SubscribeCard
+            /> */}
+          <SubscribeCard
+            id="subscription-card"
+            info={subscribeInfo.membership}
+            clickButton={subscribe}
+          />
+          {/* <SubscribeCard
               id="bootsPack-card"
               info={subscribeInfo.boostPack}
               clickButton={purchase}
-            />
-          </div>
+            /> */}
         </div>
-      </section>
-      {/* <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{ duration: 2000 }}
-      /> */}
-    </div>
+      </div>
+    </section>
   );
 }

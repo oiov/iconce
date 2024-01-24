@@ -1,16 +1,24 @@
-export default function BetaIcon({ className }: { className?: string }) {
+export default function BetaIcon({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
   return (
     <svg
+      className={className}
+      onClick={onClick}
       id="iconce.com"
-      width="50"
+      width="70"
       height="20"
-      viewBox="0 0 50 20"
+      viewBox="0 0 70 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink">
       <rect
         id="r4"
-        width="50"
+        width="70"
         height="20"
         x="0"
         y="0"
@@ -67,7 +75,7 @@ export default function BetaIcon({ className }: { className?: string }) {
         fontFamily="sans-serif"
         textAnchor="middle"
         dy="0.35em">
-        Beta
+        Premium
       </text>
     </svg>
   );
