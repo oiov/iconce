@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
+import Header from "@/components/Header";
 import { UserAuthForm } from "@/components/UserAuthForm";
 import { getCurrentUser } from "@/lib/session";
 import { UserInfo } from "@/types/user";
@@ -16,6 +17,7 @@ export default async function LoginPage() {
 
   return (
     <div className="h-screen bg-[#1f2023] flex w-screen flex-col items-center justify-center">
+      <Header user={user} />
       <div className="mx-auto flex flex-1 w-full flex-col justify-center space-y-6 sm:w-[350px] px-4">
         <div className="flex flex-col space-y-2 text-center">
           <Image

@@ -54,6 +54,8 @@ export function BillingForm({
     }
   }
   async function upgrade(event: React.SyntheticEvent) {
+    toast("Beta for Free");
+    return;
     event.preventDefault();
     setIsLoading(!isLoading);
     window.location.href = "/";

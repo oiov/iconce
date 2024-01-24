@@ -4,7 +4,7 @@ import { DashboardShell } from "@/components/dashboard/shell";
 
 export default function DashboardBillingLoading() {
   return (
-    <DashboardShell>
+    <DashboardShell className=" mt-24 px-4 md:px-10">
       <DashboardHeader
         heading="Billing"
         text="Manage billing and your subscription plan."

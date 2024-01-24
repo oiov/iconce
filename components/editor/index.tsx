@@ -53,6 +53,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  FolderLock,
   FolderUp,
   LayoutDashboard,
   Mail,
@@ -935,19 +936,27 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
-                <a
+                <Link
                   className="flex items-center justify-between"
-                  href="mailto:support@iconce.com">
+                  href="/contact">
                   <Mail className="w-4 h-4" />
-                  <span className="pl-2">Support mail</span>
-                </a>
+                  <span className="pl-2">Contact</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="DropdownMenuItem cursor-pointer">
+                <Link
+                  className="flex items-center justify-between"
+                  href="/privacy">
+                  <FolderLock className="w-4 h-4" />
+                  <span className="pl-2">Privacy</span>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DropdownMenu open={openExportMenu} onOpenChange={setOpenExportMenu}>
             <DropdownMenuTrigger className="outline-none">
               <div
-                className="flex items-center justify-center text-slate-300 border outline-none px-3 py-1 rounded-md text-sm font-semibold bg-gradient-2 border-slate-600/70"
+                className="flex items-center justify-center text-slate-300 outline-none px-3 py-1 rounded-md text-sm font-semibold bg-gradient-2"
                 onClick={() => setShowExportModal(true)}>
                 <ExportIcon /> <span className="pl-2">Export</span>
               </div>
