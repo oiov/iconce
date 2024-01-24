@@ -104,8 +104,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           : sp.get("fillType") === "Solid"
           ? "Solid"
           : "Linear") || "Linear",
-      primaryColor: sp.get("primaryColor") || "#A8C0FF",
-      secondaryColor: sp.get("secondaryColor") || "#3F2B96",
+      primaryColor: sp.get("primaryColor") || "#FC466B",
+      secondaryColor: sp.get("secondaryColor") || "#3F5EFB",
       angle: sp.get("angle") || "45",
       clip: Boolean(sp.get("clip") === "true"),
     },
