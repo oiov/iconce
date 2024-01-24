@@ -2,7 +2,7 @@
 
 import "@/styles/color-picker.css";
 import * as Popover from "@radix-ui/react-popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 
 export default function ColorPicker({
@@ -13,6 +13,10 @@ export default function ColorPicker({
   onChoose: (color: string) => void;
 }) {
   const [color, setColor] = useState(defaultColor);
+
+  useEffect(() => {
+    setColor(defaultColor);
+  }, [defaultColor]);
 
   const onChooseColor = (color: string) => {
     setColor(color);

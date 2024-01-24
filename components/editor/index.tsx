@@ -64,7 +64,7 @@ import {
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 import toast, { Toaster } from "react-hot-toast";
 import useSWR from "swr";
@@ -94,7 +94,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
         : sp.get("type") === "text"
         ? "text"
         : "svg",
-    value: sp.get("value") || `at-sign`,
+    value: sp.get("value") || `sparkles`,
     totalSize: Number(sp.get("totalSize") || "256"),
     animate: Boolean(sp.get("animate") === "true"),
     fillStyle: {
@@ -104,8 +104,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           : sp.get("fillType") === "Solid"
           ? "Solid"
           : "Linear") || "Linear",
-      primaryColor: sp.get("primaryColor") || "#00B4DB",
-      secondaryColor: sp.get("secondaryColor") || "#003357",
+      primaryColor: sp.get("primaryColor") || "#A8C0FF",
+      secondaryColor: sp.get("secondaryColor") || "#3F2B96",
       angle: sp.get("angle") || "45",
       clip: Boolean(sp.get("clip") === "true"),
     },
@@ -224,6 +224,10 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       console.error("Error in copying", err);
     }
   };
+
+  const formattingFn = useCallback((value: number) => {
+    return nFormatter(value);
+  }, []);
 
   const IconItem = (item: string) => {
     return (
@@ -353,7 +357,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             {!isLoading ? (
               <CountUp
                 duration={1}
-                formattingFn={(v) => nFormatter(v)}
+                preserveValue={true}
+                formattingFn={formattingFn}
                 start={100}
                 end={data.data.generate}
               />
@@ -365,7 +370,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           <strong className="text-white">
             {!isLoading ? (
               <CountUp
-                formattingFn={(v) => nFormatter(v)}
+                formattingFn={formattingFn}
+                preserveValue={true}
                 duration={1}
                 start={100}
                 end={data.data.share}
