@@ -233,11 +233,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     try {
       if (iconInfo.type === "local") return;
       const link = generateURL(iconInfo, `${window.origin}/api/svg`);
-      await navigator.clipboard.writeText(link);
-      toast("Copied API Link to clipboard", {
-        style: { backgroundColor: "#3b3b3b", color: "white" },
-      });
-
       window.open(link, "_blank");
     } catch (err) {
       console.error("Error in copying", err);
