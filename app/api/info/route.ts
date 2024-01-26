@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           message: "success",
-          data: { generate: res.generate, share: res.share },
+          data: { generate: res.generate, share: res.share, api: res.api },
         },
         { status: 200 }
       );

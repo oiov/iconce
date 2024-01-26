@@ -64,7 +64,7 @@ import {
 } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 import toast, { Toaster } from "react-hot-toast";
@@ -72,6 +72,7 @@ import useSWR from "swr";
 
 export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const sp = useSearchParams();
+  const router = useRouter();
   const ref = useRef<SVGSVGElement>(null);
   const [openExportMenu, setOpenExportMenu] = useState(false);
   const [openCantactMenu, setOpenCantactMenu] = useState(false);
@@ -223,6 +224,21 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       toast("Copied link to clipboard", {
         style: { backgroundColor: "#3b3b3b", color: "white" },
       });
+    } catch (err) {
+      console.error("Error in copying", err);
+    }
+  };
+
+  const handleCopyAPILink = async () => {
+    try {
+      if (iconInfo.type === "local") return;
+      const link = generateURL(iconInfo, `${window.origin}/api/svg`);
+      await navigator.clipboard.writeText(link);
+      toast("Copied API Link to clipboard", {
+        style: { backgroundColor: "#3b3b3b", color: "white" },
+      });
+
+      window.open(link, "_blank");
     } catch (err) {
       console.error("Error in copying", err);
     }
@@ -967,6 +983,11 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <div
+            onClick={handleCopyAPILink}
+            className="text-white font-semibold text-sm cursor-pointer after:content-['_↗']">
+            API
+          </div>
           <DropdownMenu open={openExportMenu} onOpenChange={setOpenExportMenu}>
             <DropdownMenuTrigger className="outline-none">
               <div

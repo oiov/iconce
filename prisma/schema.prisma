@@ -52,6 +52,7 @@ model Generate {
 
   generate Int
   share    Int
+  api      Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

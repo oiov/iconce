@@ -50,6 +50,7 @@
     "lemonsqueezy.ts": "^0.1.7",
     "logging-service": "^1.0.1",
     "lucide-react": "^0.264.0",
+    "lucide-static": "^0.316.0",
     "next": "^13.4.10",
     "next-auth": "^4.24.5",
     "next-contentlayer": "^0.3.4",

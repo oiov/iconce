@@ -145,7 +145,10 @@ export async function copySvgToClipboard(
   }
 }
 
-export const generateURL = (params: IconInfo) => {
+export const generateURL = (
+  params: IconInfo,
+  org: string = "https://iconce.com/"
+) => {
   const flattenObject = (obj: any): any => {
     return Object.keys(obj).reduce((acc: any, key: any) => {
       if (typeof obj[key] === "object")
@@ -163,7 +166,7 @@ export const generateURL = (params: IconInfo) => {
     )
     .join("&");
 
-  return `https://iconce.com/?${query}`;
+  return `${org}?${query}`;
 };
 
 export function nFormatter(num: number, digits?: number) {

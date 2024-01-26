@@ -21,6 +21,13 @@ export async function updateGenerateInfo(type: string) {
           share: data.share + 1,
         },
       });
+    } else if (type === "2") {
+      await prisma.generate.update({
+        where: { id: data.id },
+        data: {
+          api: data.api + 1,
+        },
+      });
     }
   }
 }

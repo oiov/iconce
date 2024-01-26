@@ -106,6 +106,9 @@ dependencies:
   lucide-react:
     specifier: ^0.264.0
     version: 0.264.0(react@18.2.0)
+  lucide-static:
+    specifier: ^0.316.0
+    version: 0.316.0
   next:
     specifier: ^13.4.10
     version: 13.5.6(@opentelemetry/api@1.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -3977,6 +3980,10 @@ packages:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /lucide-static@0.316.0:
+    resolution: {integrity: sha512-0z1UKEAiP0KXKfyK7swCdY4jqsnxsrxJ+hIS8EGyDVHe5VaiGWeyCBKg4+Vsh3S17l7xyaVdQu5jh181fgEQSA==}
     dev: false
 
   /magic-string@0.30.5:
