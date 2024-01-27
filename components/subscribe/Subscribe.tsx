@@ -27,7 +27,7 @@ export const subscribeInfo: SubscribeInfo = {
     isPopular: true,
     title: "Premium",
     description: "",
-    amount: 1.99,
+    amount: 2.99,
     expireType: "month",
     possess: [
       "Unlimited use of all features",
