@@ -1004,7 +1004,9 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
 
           <DropdownMenu open={openAPIMenu} onOpenChange={setOpenAPIMenu}>
             <DropdownMenuTrigger className="outline-none">
-              <div className="text-white font-semibold text-sm cursor-pointer">
+              <div
+                className="text-slate-400 font-semibold text-sm"
+                onClick={() => setOpenCantactMenu(true)}>
                 API
               </div>
             </DropdownMenuTrigger>
