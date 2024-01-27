@@ -12,6 +12,7 @@ import {
   IconInfo,
 } from "@/components/editor/styles";
 import DiscordIcon from "@/components/icons/Discord";
+import Markdown from "@/components/icons/Markdown";
 import BetaIcon from "@/components/icons/betaIcon";
 import CopyIcon from "@/components/icons/copy";
 import ExportIcon from "@/components/icons/export";
@@ -54,6 +55,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Code2,
   FolderLock,
   FolderUp,
   LayoutDashboard,
@@ -75,6 +77,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const router = useRouter();
   const ref = useRef<SVGSVGElement>(null);
   const [openExportMenu, setOpenExportMenu] = useState(false);
+  const [openAPIMenu, setOpenAPIMenu] = useState(false);
   const [openCantactMenu, setOpenCantactMenu] = useState(false);
   const [openEmojiPicker, setEmojiPicker] = useState(false);
   const [showBottomLeftPanel, setShowBottomLeftPanel] =
@@ -229,11 +232,30 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     }
   };
 
-  const handleCopyAPILink = async () => {
+  const handleOpenAPILink = async () => {
     try {
       if (iconInfo.type === "local") return;
       const link = generateURL(iconInfo, `${window.origin}/api/svg`);
       window.open(link, "_blank");
+    } catch (err) {
+      console.error("Error in copying", err);
+    }
+  };
+
+  const handleCopyAPILink = async (type: string) => {
+    try {
+      if (iconInfo.type === "local") return;
+      const link = generateURL(iconInfo, `${window.origin}/api/svg`);
+      if (type === "code") {
+        await navigator.clipboard.writeText(`<img src="${link}" alt="logo"/>`);
+      } else if (type === "md") {
+        await navigator.clipboard.writeText(`![logo](${link})`);
+      } else {
+        await navigator.clipboard.writeText(link);
+      }
+      toast("Copied code to clipboard", {
+        style: { backgroundColor: "#3b3b3b", color: "white" },
+      });
     } catch (err) {
       console.error("Error in copying", err);
     }
@@ -514,7 +536,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               <Switch.Root
                 className="SwitchRoot"
                 id="airplane-mode"
-                defaultChecked={iconInfo.animate}
+                // defaultChecked={iconInfo.animate}
+                checked={iconInfo.animate}
                 onCheckedChange={(e) => {
                   if (user && user.role > 0) {
                     setIconInfo({
@@ -534,12 +557,12 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   "text-xs flex items-center gap-2 " +
                   `${isDisabled(iconInfo.type !== "svg")}`
                 }>
-                Clip Background (svg)
+                Clip (svg)
               </span>
               <Switch.Root
                 className="SwitchRoot"
                 id="airplane-mode"
-                defaultChecked={iconInfo.fillStyle.clip}
+                checked={iconInfo.fillStyle.clip}
                 onCheckedChange={(e) =>
                   setIconInfo({
                     ...iconInfo,
@@ -978,11 +1001,36 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div
-            onClick={handleCopyAPILink}
-            className="text-white font-semibold text-sm cursor-pointer after:content-['_↗']">
-            API
-          </div>
+
+          <DropdownMenu open={openAPIMenu} onOpenChange={setOpenAPIMenu}>
+            <DropdownMenuTrigger className="outline-none">
+              <div className="text-white font-semibold text-sm cursor-pointer">
+                API
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="bg-[#2e3031] border border-[#ffffff0d] text-sm text-[#fff6]"
+              onMouseLeave={() => setOpenAPIMenu(false)}>
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer hover:after:content-['_↗']"
+                onClick={handleOpenAPILink}>
+                <LinkIcon className="w-3.5 h-3.5" />
+                <span className="pl-2 text-white">Preview</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => handleCopyAPILink("code")}>
+                <Code2 className="w-3.5 h-3.5" />
+                <span className="pl-2">HTML Code</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="DropdownMenuItem cursor-pointer"
+                onClick={() => handleCopyAPILink("md")}>
+                <Markdown className="w-3.5 h-3.5" />
+                <span className="pl-2">Markdown</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <DropdownMenu open={openExportMenu} onOpenChange={setOpenExportMenu}>
             <DropdownMenuTrigger className="outline-none">
               <div
@@ -1178,6 +1226,22 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 defaultValue={generateURL(iconInfo)}></textarea>
             </div>
           )}
+
+          <div className="mt-4 w-full">
+            <div className="flex items-center justify-between text-sm font-bold text-[#62abf0] mb-2">
+              <span>API</span>
+              <CopyIcon
+                className="hover:text-[#cfcfcf] cursor-pointer"
+                onClick={() => handleCopyAPILink("org")}
+              />
+            </div>
+            <textarea
+              className="h-12 w-full text-sm text-white p-2 bg-[#3d3d3d] focus:border-gray-500 caret-slate-100 transition-all duration-300 outline-none rounded-md shadow-inner border border-[#ffffff0d]"
+              defaultValue={generateURL(
+                iconInfo,
+                `https://iconce.com/api/svg`
+              )}></textarea>
+          </div>
 
           <div className="mt-4 w-full">
             <div className="flex items-center justify-between text-sm font-bold text-[#62abf0] mb-2">
@@ -1386,6 +1450,7 @@ export const SvgIcon = ({
           y={(iconInfo.totalSize - iconInfo.icon.size) / 2}
           height={iconInfo.icon.size}
           width={iconInfo.icon.size}
+          crossOrigin="anonymous"
         />
       )}
     </svg>

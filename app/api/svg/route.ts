@@ -223,7 +223,6 @@ export async function GET(req: Request) {
       ></rect>`
           : ""
       }
-
       ${iconInfo.type === "svg" ? svgString : ""}
       ${
         iconInfo.type === "text"
@@ -248,6 +247,7 @@ export async function GET(req: Request) {
             y="${(iconInfo.totalSize - iconInfo.icon.size) / 2}"
             height="${iconInfo.icon.size}"
             width="${iconInfo.icon.size}"
+            crossOrigin="anonymous"
           />`
           : ""
       }

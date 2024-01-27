@@ -1,0 +1,1 @@
+![](http://localhost:3000/api/svg?filename=export-icon&type=svg&value=sparkles&totalSize=256&animate=false&fillType=Linear&primaryColor=%23FC466B&secondaryColor=%233F5EFB&angle=45&clip=false&radialGlare=false&noiseTexture=false&noiseOpacity=50&radius=64&strokeSize=0&strokeColor=%23FFFFFF&strokeOpacity=100&color=%23FFFFFF&size=128&family=sans-serif)

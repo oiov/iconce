@@ -1,6 +1,7 @@
-export default function LinkIcon() {
+export default function LinkIcon({ className }: { className?: string }) {
   return (
     <svg
+      className={className}
       width={16}
       height={16}
       viewBox="0 0 16 16"

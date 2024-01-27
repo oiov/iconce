@@ -57,7 +57,7 @@ export default function Modal({
                 className="fixed inset-0 z-[100] hidden min-h-screen items-center justify-center md:flex"
                 initial={{ scale: 0.95 }}
                 animate={{ scale: 1 }}
-                exit={{ scale: 0.95 }}
+                // exit={{ scale: 0.95 }}
                 onMouseDown={(e) => {
                   if (desktopModalRef.current === e.target) {
                     setShowModal(false);
