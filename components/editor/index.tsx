@@ -41,6 +41,7 @@ import {
   downloadSvgAsPng,
   fetcher,
   generateURL,
+  getImageData,
   nFormatter,
   toCamelCase,
 } from "@/lib/utils";
@@ -134,6 +135,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const [seachNameResult, setseachNameResult] = useState<string[]>([]);
   const [suppotIcons, setSuppotIcons] = useState<string[]>([]);
 
+  const [noiseImage, setNoiseImage] = useState<string>("");
+
   const [iconPage, setIconPage] = useState(1);
   const [perPage] = useState(40);
   const startIndex = (iconPage - 1) * perPage;
@@ -148,6 +151,12 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       setSuppotIcons(Object.keys(dynamicIconImports));
     }
   }, [dynamicIconImports]);
+
+  useEffect(() => {
+    getImageData("/noise.png").then((data) => {
+      setNoiseImage(data as string);
+    });
+  }, []);
 
   const isDisabled = (disable: boolean) => (disable ? "text-gray-400" : "");
 
@@ -1144,7 +1153,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             height: iconInfo.totalSize,
           }}>
           <div className="relative">
-            <SvgIcon iconInfo={iconInfo} svgRef={ref} />
+            <SvgIcon iconInfo={iconInfo} svgRef={ref} noiseImage={noiseImage} />
             <span
               className="text-center absolute top-[105%] left-[50%] text-xs px-2 py-1 text-[#ffffff66] bg-[#ffffff1a] rounded-[20px] min-w-[70px]"
               style={{ transform: "translate(-50%,-20%)" }}>
@@ -1285,9 +1294,11 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
 export const SvgIcon = ({
   iconInfo,
   svgRef,
+  noiseImage,
 }: {
   iconInfo: IconInfo;
   svgRef: React.RefObject<SVGSVGElement>;
+  noiseImage: string;
 }) => {
   return (
     <svg
@@ -1417,6 +1428,7 @@ export const SvgIcon = ({
         <NoiseTexture
           opacity={iconInfo.background.noiseOpacity}
           size={iconInfo.totalSize}
+          data={noiseImage}
         />
       )}
       {iconInfo.type === "svg" && (

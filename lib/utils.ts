@@ -191,3 +191,18 @@ export function nFormatter(num: number, digits?: number) {
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
     : "0";
 }
+
+export const getImageData = async (url: string) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const fileReader = new FileReader();
+  return new Promise((resolve, reject) => {
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = () => {
+      reject(fileReader.error);
+    };
+    fileReader.readAsDataURL(blob);
+  });
+};

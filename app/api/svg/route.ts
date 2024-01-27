@@ -33,7 +33,7 @@ export async function GET(req: Request) {
       },
       background: {
         radialGlare: Boolean(sp.get("radialGlare") === "true"),
-        noiseTexture: Boolean(sp.get("noiseTexture") === "true"),
+        noiseTexture: false, // TODO
         noiseOpacity: Number(sp.get("noiseOpacity") || "50"),
         radius: sp.get("radius") || "64",
         strokeSize: Number(sp.get("strokeSize") || "0"),
@@ -92,6 +92,13 @@ export async function GET(req: Request) {
           ${match?.[1]}
         </svg>
       `;
+    }
+
+    let noiseImage = "";
+    if (iconInfo.background.noiseTexture) {
+      // getImageData("http://localhost:3000/noise.png").then((data) => {
+      //   noiseImage = data as string;
+      // });
     }
 
     await updateGenerateInfo("2");
@@ -163,28 +170,28 @@ export async function GET(req: Request) {
         ${
           iconInfo.type === "svg" && iconInfo.fillStyle.clip
             ? `<mask id="mask">
-            <rect
-              id="r4"
-              width="${iconInfo.totalSize}"
-              height="${iconInfo.totalSize}"
-              fill="white"
-            />
-            ${svgClipString}
-          </mask>`
+                <rect
+                  id="r4"
+                  width="${iconInfo.totalSize}"
+                  height="${iconInfo.totalSize}"
+                  fill="white"
+                />
+                ${svgClipString}
+              </mask>`
             : ""
         }
         ${
           iconInfo.background.noiseTexture
             ? `<mask id="clipmask">
-            <rect
-              width="${iconInfo.totalSize}"
-              height="${iconInfo.totalSize}"
-              x="${iconInfo.background.strokeSize / 2}"
-              y="${iconInfo.background.strokeSize / 2}"
-              fill="white"
-              rx="${iconInfo.background.radius}" // 设置圆角
-            />
-          </mask>`
+                <rect
+                  width="${iconInfo.totalSize}"
+                  height="${iconInfo.totalSize}"
+                  x="${iconInfo.background.strokeSize / 2}"
+                  y="${iconInfo.background.strokeSize / 2}"
+                  fill="white"
+                  rx="${iconInfo.background.radius}" // 设置圆角
+                />
+              </mask>`
             : ""
         }
       </defs>
@@ -221,6 +228,19 @@ export async function GET(req: Request) {
         rx="${iconInfo.background.radius}"
         style="mix-blend-mode: overlay"
       ></rect>`
+          : ""
+      }
+      ${
+        iconInfo.background.noiseTexture
+          ? `<image
+              href="${noiseImage}"
+              width="${iconInfo.totalSize}"
+              height="${iconInfo.totalSize}"
+              x="0"
+              y="0"
+              mask="url(#clipmask)"
+              clipPath="url(#clip)"
+              opacity="${iconInfo.background.noiseOpacity ?? 50}%"></image>`
           : ""
       }
       ${iconInfo.type === "svg" ? svgString : ""}
@@ -260,6 +280,9 @@ export async function GET(req: Request) {
       }
     );
   } catch (error) {
-    return NextResponse.json({ message: error }, { status: 500 });
+    return NextResponse.json(
+      { message: "something went wrong" },
+      { status: 500 }
+    );
   }
 }
