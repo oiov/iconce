@@ -4,7 +4,8 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "ICONCE",
     short_name: "ICONCE",
-    description: "Generate SVG icons in seconds",
+    description:
+      "Create and customize your own icons in just a few clicks, and download them in SVG, PNG",
     start_url: "/",
     display: "standalone",
     background_color: "#fff",

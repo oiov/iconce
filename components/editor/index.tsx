@@ -939,17 +939,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       <header className="h-14 px-4 flex justify-between items-center bg-[#1f2023] shadow backdrop-blur-xl">
         <div className="logo text-left flex items-center gap-4">
           <MainHeader />
-          {/* <div className="w-[1px] h-[16px] bg-[#fff3] rounded-[3px]"></div>
-          <div className="actions gap-1">
-            <Button className="text-white gap-1" variant="ghost" size="sm">
-              <UndoIcon />
-              Undo
-            </Button>
-            <Button className="text-white gap-1" variant="ghost" size="sm">
-              <RedoIcon />
-              Redo
-            </Button>
-          </div> */}
         </div>
         <div
           className="w-72 absolute top-[50%] left-[50%] md:block hidden mx-auto text-gray-500 text-center text-sm font-bold"
@@ -973,7 +962,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           <DropdownMenu
             open={openCantactMenu}
             onOpenChange={setOpenCantactMenu}>
-            <DropdownMenuTrigger className="outline-none">
+            <DropdownMenuTrigger className="outline-none hidden md:block">
               <div
                 className="text-slate-400 text-sm font-semibold"
                 onClick={() => setOpenCantactMenu(true)}>
@@ -1216,8 +1205,14 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 <input
                   id="ch2"
                   type="checkbox"
-                  defaultChecked={isExportPNG}
-                  onChange={(e) => setIsExportPNG(e.target.checked)}
+                  checked={isExportPNG}
+                  onChange={(e) => {
+                    if (user && user.role > 0) {
+                      setIsExportPNG(e.target.checked);
+                    } else {
+                      setShowSubscribeCard(true);
+                    }
+                  }}
                 />
                 <div className="transition1"></div>
               </label>

@@ -11,9 +11,9 @@ export default function MainHeader() {
         width="16"
         height="16"
       />
-      {/* <h1 className="text-2xl font-bold text-gradient-1 flex items-center">
-        ICONCE
-      </h1> */}
+      <h1 className="text-xl md:text-2xl font-[900] text-gradient-1 flex items-center">
+        𝐈𝐂𝐎𝐍𝐂𝐄
+      </h1>
     </Link>
   );
 }
