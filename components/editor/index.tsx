@@ -39,7 +39,6 @@ import {
   copySvgToClipboard,
   downloadSvg,
   downloadSvgAsPng,
-  fetcher,
   generateURL,
   getImageData,
   nFormatter,
@@ -69,9 +68,7 @@ import dynamicIconImports from "lucide-react/dynamicIconImports";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import CountUp from "react-countup";
 import toast, { Toaster } from "react-hot-toast";
-import useSWR from "swr";
 
 export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const sp = useSearchParams();
@@ -142,9 +139,9 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   const startIndex = (iconPage - 1) * perPage;
   const endIndex = startIndex + perPage;
 
-  const { data, isLoading, error } = useSWR<any>("/api/info", fetcher, {
-    revalidateOnFocus: false,
-  });
+  // const { data, isLoading, error } = useSWR<any>("/api/info", fetcher, {
+  //   revalidateOnFocus: false,
+  // });
 
   useEffect(() => {
     if (Object.keys(dynamicIconImports).length > 0) {
@@ -395,7 +392,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
 
   const renderRightPanel = () => (
     <div className="flex flex-col gap-3">
-      {
+      {/* {
         <div className="text-slate-300 transition-all duration-300 py-3 bg-gradient-3 shadow-md hover:bg-[#4b4b4b] rounded-md text-xs px-3">
           🎉 Exported{" "}
           <strong className="text-white animation-accordion-down">
@@ -427,7 +424,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           </strong>{" "}
           times
         </div>
-      }
+      } */}
 
       <Accordion
         className="w-full"

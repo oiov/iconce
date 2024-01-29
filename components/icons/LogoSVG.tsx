@@ -24,9 +24,9 @@ export default function LogoSVG({
         rx="64"
         fill="url(#r5)"
         stroke="#FFFFFF"
-        stroke-width="0"
-        stroke-opacity="100%"
-        paint-order="stroke"
+        strokeWidth="0"
+        strokeOpacity="100%"
+        paintOrder="stroke"
       />
       <clipPath id="clip">
         <use xlinkHref="#r4" />
@@ -37,8 +37,8 @@ export default function LogoSVG({
           gradientUnits="userSpaceOnUse"
           gradientTransform="rotate(45)"
           style={{ transformOrigin: "center center" }}>
-          <stop stop-color="#8E2DE2" />
-          <stop offset="1" stop-color="#4A00E0" />
+          <stop stopColor="#8E2DE2" />
+          <stop offset="1" stopColor="#4A00E0" />
         </linearGradient>
         <radialGradient
           id="r6"
@@ -47,8 +47,8 @@ export default function LogoSVG({
           r="1"
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(256) rotate(90) scale(512)">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stopOpacity="0" />
         </radialGradient>
       </defs>
     </svg>
