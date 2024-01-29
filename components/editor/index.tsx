@@ -41,7 +41,6 @@ import {
   downloadSvgAsPng,
   generateURL,
   getImageData,
-  nFormatter,
   toCamelCase,
 } from "@/lib/utils";
 import { UserInfo } from "@/types/user";
@@ -67,7 +66,7 @@ import {
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function SvgEditor({ user }: { user: UserInfo | null }) {
@@ -267,9 +266,13 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     }
   };
 
-  const formattingFn = useCallback((value: number) => {
-    return nFormatter(value);
-  }, []);
+  // const formattingFn = useCallback((value: number) => {
+  //   return nFormatter(value);
+  // }, []);
+
+  useEffect(() => {
+    console.log("iconInfo", iconInfo);
+  }, [iconInfo]);
 
   const IconItem = (item: string) => {
     return (

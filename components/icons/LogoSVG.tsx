@@ -16,24 +16,24 @@ export default function LogoSVG({
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink">
       <rect
-        id="r4"
+        id="r4icon"
         width="256"
         height="256"
         x="0"
         y="0"
         rx="64"
-        fill="url(#r5)"
+        fill="url(#r5icon)"
         stroke="#FFFFFF"
         strokeWidth="0"
         strokeOpacity="100%"
         paintOrder="stroke"
       />
-      <clipPath id="clip">
-        <use xlinkHref="#r4" />
+      <clipPath id="clip-icon">
+        <use xlinkHref="#r4icon" />
       </clipPath>
       <defs>
         <linearGradient
-          id="r5"
+          id="r5icon"
           gradientUnits="userSpaceOnUse"
           gradientTransform="rotate(45)"
           style={{ transformOrigin: "center center" }}>
@@ -41,7 +41,7 @@ export default function LogoSVG({
           <stop offset="1" stopColor="#4A00E0" />
         </linearGradient>
         <radialGradient
-          id="r6"
+          id="r6icon"
           cx="0"
           cy="0"
           r="1"
