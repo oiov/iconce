@@ -261,6 +261,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       toast("Copied code to clipboard", {
         style: { backgroundColor: "#3b3b3b", color: "white" },
       });
+      await updateGenerateInfo("2");
     } catch (err) {
       console.error("Error in copying", err);
     }

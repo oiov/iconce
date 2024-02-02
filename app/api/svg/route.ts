@@ -1,4 +1,3 @@
-import { updateGenerateInfo } from "@/lib/generate/generate";
 import { toCamelCase } from "@/lib/utils";
 import Icon from "lucide-static";
 import { NextResponse } from "next/server";
@@ -100,8 +99,6 @@ export async function GET(req: Request) {
       //   noiseImage = data as string;
       // });
     }
-
-    await updateGenerateInfo("2");
 
     return new Response(
       `<svg
