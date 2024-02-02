@@ -242,6 +242,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
       if (iconInfo.type === "local") return;
       const link = generateURL(iconInfo, `${window.origin}/api/svg`);
       window.open(link, "_blank");
+      await updateGenerateInfo("2");
     } catch (err) {
       console.error("Error in copying", err);
     }
@@ -270,10 +271,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
   // const formattingFn = useCallback((value: number) => {
   //   return nFormatter(value);
   // }, []);
-
-  useEffect(() => {
-    console.log("iconInfo", iconInfo);
-  }, [iconInfo]);
 
   const IconItem = (item: string) => {
     return (
