@@ -211,8 +211,6 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     if (ref.current) {
       isExportSVG && downloadSvg(ref.current, iconInfo.filename);
 
-      await updateGenerateInfo("0");
-
       if (isExportPNG && user) {
         if (user.role > 0) {
           isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
@@ -220,6 +218,8 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
           setShowSubscribeCard(true);
         }
       }
+
+      await updateGenerateInfo("0");
     }
   };
 
