@@ -3,9 +3,9 @@ import Link from "next/link";
 
 import Header from "@/components/Header";
 import { UserAuthForm } from "@/components/UserAuthForm";
+import LogoSVG from "@/components/icons/LogoSVG";
 import { getCurrentUser } from "@/lib/session";
 import { UserInfo } from "@/types/user";
-import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -20,13 +20,7 @@ export default async function LoginPage() {
       <Header user={user} />
       <div className="mx-auto flex flex-1 w-full flex-col justify-center space-y-6 sm:w-[350px] px-4">
         <div className="flex flex-col space-y-2 text-center">
-          <Image
-            alt="logo"
-            src="/ce.svg"
-            className="sm:w-12 sm:h-12 w-6 h-6 mx-auto"
-            width={32}
-            height={32}
-          />
+          <LogoSVG className="w-8 h-8" />
           <h1 className="text-2xl text-white font-semibold tracking-tight">
             ICONCE
           </h1>
