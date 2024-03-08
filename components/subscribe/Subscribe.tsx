@@ -27,11 +27,10 @@ export const subscribeInfo: SubscribeInfo = {
     isPopular: true,
     title: "Premium",
     description: "",
-    amount: 2.99,
+    amount: 0.99,
     expireType: "month",
     possess: [
       "Unlimited use of all features",
-      "Export as PNG, SVG",
       "Early access to new features",
     ],
     buttonText: "Upgrade Now",
