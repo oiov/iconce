@@ -30,6 +30,7 @@ export const subscribeInfo: SubscribeInfo = {
     amount: 0.99,
     expireType: "month",
     possess: [
+      "3-day free trial",
       "Unlimited use of all features",
       "Early access to new features",
     ],
