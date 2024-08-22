@@ -211,12 +211,14 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
     if (ref.current) {
       isExportSVG && downloadSvg(ref.current, iconInfo.filename);
 
-      if (isExportPNG && user) {
-        if (user.role > 0) {
-          isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
-        } else {
-          setShowSubscribeCard(true);
-        }
+      if (isExportPNG) {
+        isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+
+        // if (user.role > 0) {
+        //   isExportPNG && downloadSvgAsPng(ref.current, iconInfo.filename);
+        // } else {
+        //   setShowSubscribeCard(true);
+        // }
       }
 
       await updateGenerateInfo("0");
@@ -536,8 +538,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 className={
                   "text-xs flex items-center gap-2 cursor-pointer " +
                   `${isDisabled(iconInfo.fillStyle.fillType === "Solid")}`
-                }
-                onClick={() => setShowSubscribeCard(true)}>
+                }>
                 Animate (svg) <BetaIcon />
               </span>
               <Switch.Root
@@ -546,14 +547,18 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                 // defaultChecked={iconInfo.animate}
                 checked={iconInfo.animate}
                 onCheckedChange={(e) => {
-                  if (user && user.role > 0) {
-                    setIconInfo({
-                      ...iconInfo,
-                      animate: e,
-                    });
-                  } else {
-                    setShowSubscribeCard(true);
-                  }
+                  setIconInfo({
+                    ...iconInfo,
+                    animate: e,
+                  });
+                  // if (user && user.role > 0) {
+                  //   setIconInfo({
+                  //     ...iconInfo,
+                  //     animate: e,
+                  //   });
+                  // } else {
+                  //   setShowSubscribeCard(true);
+                  // }
                 }}>
                 <Switch.Thumb className="SwitchThumb" />
               </Switch.Root>
@@ -1064,15 +1069,20 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
               <DropdownMenuItem
                 className="DropdownMenuItem cursor-pointer"
                 onClick={() => {
-                  if (user && user.role > 0) {
-                    copySvgAsPngToClipboard(ref.current);
-                    toast("Copied image to clipboard", {
-                      style: { backgroundColor: "#3b3b3b", color: "white" },
-                    });
-                    updateGenerateInfo("1");
-                  } else {
-                    setShowSubscribeCard(true);
-                  }
+                  copySvgAsPngToClipboard(ref.current);
+                  toast("Copied image to clipboard", {
+                    style: { backgroundColor: "#3b3b3b", color: "white" },
+                  });
+                  updateGenerateInfo("1");
+                  // if (user && user.role > 0) {
+                  //   copySvgAsPngToClipboard(ref.current);
+                  //   toast("Copied image to clipboard", {
+                  //     style: { backgroundColor: "#3b3b3b", color: "white" },
+                  //   });
+                  //   updateGenerateInfo("1");
+                  // } else {
+                  //   setShowSubscribeCard(true);
+                  // }
                 }}>
                 <CopyIcon />
                 <span className="pl-2">Copy Image</span>
@@ -1192,10 +1202,7 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="text-sm truncate">{iconInfo.filename}.png</div>
-              <BetaIcon
-                className=" cursor-pointer"
-                onClick={() => setShowSubscribeCard(true)}
-              />
+
               <div className="text-xs text-slate-400 ml-auto h-3">
                 {iconInfo.totalSize}x{iconInfo.totalSize}
               </div>
@@ -1205,11 +1212,13 @@ export default function SvgEditor({ user }: { user: UserInfo | null }) {
                   type="checkbox"
                   checked={isExportPNG}
                   onChange={(e) => {
-                    if (user && user.role > 0) {
-                      setIsExportPNG(e.target.checked);
-                    } else {
-                      setShowSubscribeCard(true);
-                    }
+                    setIsExportPNG(e.target.checked);
+
+                    // if (user && user.role > 0) {
+                    //   setIsExportPNG(e.target.checked);
+                    // } else {
+                    //   setShowSubscribeCard(true);
+                    // }
                   }}
                 />
                 <div className="transition1"></div>
